@@ -24,7 +24,7 @@ This website was created to help make the process of filling out the image templ
 
 [**Download Template Package**](https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/template/BA%20Profile%20Templates.zip)
 
-This package contains both English and Japanese templates. You can edit the provided images in [Krita](https://krita.org/en/), Photoshop, [GIMP](https://www.gimp.org/), or any other image editing software. If you're looking for premade backgrounds to use with the templates, you can find them [**here**](https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/template/bg/).
+This package contains both English and Japanese templates. You can edit the provided images in [Krita](https://krita.org/en/), Photoshop, [GIMP](https://www.gimp.org/), or any other image editing software. If you're looking for premade backgrounds to use with the templates, you can find them [**here**](shittim-chest/template/bg/).
 
 <p align="center">
   <img src="shittim-chest/images/yuzu-box.png" height="100">
@@ -87,14 +87,14 @@ If everything looks good, we will approve and merge your changes! Thank you!
 **Advanced note:** For those testing offline, you must modify the CSS to hide the newly added language on other selections and then update the minified CSS file as well.
 
 ```css
-.en, .ja {
+.en, .ja, .LANG_CODE {
   visibility:hidden;
   position:fixed;
   height:0px;
   width:0px;
 }
 
-.en-lang .en, .ja-lang .ja {
+.en-lang .en, .ja-lang .ja, .LANG_CODE-lang .LANG_CODE {
   visibility:visible;
   position:static;
   height:auto;
