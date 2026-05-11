@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <title>Contact | Blue Archive Profile Generator</title>
+    <meta name="title" content="Contact | Blue Archive Profile Generator">
+    <meta name="twitter:title" content="Contact | Blue Archive Profile Generator">
+    <meta property="og:title" content="Contact | Blue Archive Profile Generator">
+    <meta name="description" content="If you have any feedback, bug reports, or questions, please contact Seth-sensei here.">
+    <meta property="og:description" content="If you have any feedback, bug reports, or questions, please contact Seth-sensei here.">
+    <link rel="shortcut icon" type="image/x-icon" href="../shittim-chest/images/plana.ico">
+
+    <meta name="keywords" content="contact, feedback, bug reports">
+    <meta name="language" content="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:site_name" content="sethclydesdale.github.io">
+    <meta property="og:url" content="https://sethclydesdale.github.io/ba-profile-generator/contact/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/social.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:creator" content="@SethC1995">
+
+    <link rel="stylesheet" href="../shittim-chest/plana.min.css">
+<style>
+#contact-links {
+  background:#FFF;
+  background:rgba(255, 255, 255, 0.75);
+  border:2px solid #CCC;
+  border-radius:10px;
+  width:300px;
+  float:right;
+  position:relative;
+  top:-190px;
+  right:310px;
+  z-index:1;
+}
+</style>
+    <script src="../shittim-chest/arona.min.js"></script>
+    <script src="../shittim-chest/ga.js" async></script>
+  </head>
+
+  <body class="en-lang">
+<script>
+// quick lang change
+if (storageOK && localStorage.BAProfile && !/"lang":"en"/.test(localStorage.BAProfile)) {
+  Arona.profile.lang = localStorage.BAProfile.replace(/.*?"lang":"(.*?)".*/gmi, '$1');
+  document.body.className = Arona.profile.lang + '-lang';
+}
+  
+// quick background change
+if (Arona.asleep) {
+  document.documentElement.className = 'night';
+}
+</script>
+    <div style="flex:1 0 auto;">
+      <div id="content">
+        <div id="content-inner" class="clear">
+          <h1 id="logo"><a href="../" title="Blue Archive Profile Generator"><img src="../shittim-chest/images/logo.png" alt="Blue Archive Profile Generator"></a></h1>
+
+          <div id="intro-box" class="clear">
+            <p id="intro-bubble"><span class="en">If you have any feedback, bug reports, or questions, please contact Seth-sensei via one of the following links!</span><span class="ja">フィードバック、バグ、質問とかがあれば、次のリンクにセス先生を連絡してください！</span></p>
+            <div id="intro-arona-container"><img id="arona" src="../shittim-chest/images/arona/1.webp"><div id="headpat" onclick="Arona.headpat();"></div></div>
+            <div id="preload">
+              <img src="../shittim-chest/images/arona/2.webp">
+              <img src="../shittim-chest/images/plana/2.webp">
+            </div>
+            <script>
+              // get and cache Arona/Plana's elements
+              Arona.body = document.getElementById('arona');
+              Arona.container = document.getElementById('intro-arona-container');
+
+              // things to do while Arona is snoozing
+              if (Arona.asleep) {
+                // change Arona to Plana 
+                Arona.expression(1);
+
+                // change tone of dialogue for Plana
+                var introBubble = document.getElementById('intro-bubble');
+                introBubble.innerHTML = introBubble.innerHTML.replace(/!/g, '.').replace(/！/g, '。');
+              }
+            </script>
+          </div>
+
+          <ul id="contact-links" class="menu-list with-halo">
+            <li><a href="https://github.com/SethClydesdale/ba-profile-generator/issues" target="_blank">GitHub</li>
+            <li><a href="https://x.com/SethC1995" target="_blank">X (Twitter)</a></li>
+            <li><a href="https://www.reddit.com/message/compose/?to=SelentoAnuri" target="_blank">Reddit</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="clear">
+      <ul class="footer-left">
+        <li><a href="https://sethclydesdale.github.io/privacy/">Privacy</a></li>
+      </ul>
+
+      <ul class="footer-right">
+        <li>Created by <a href="https://github.com/SethClydesdale">Seth-sensei</a> and the <a href="https://github.com/SethClydesdale/ba-profile-generator/graphs/contributors">Kivotos Community</a></li>
+      </ul>
+    </footer>
+  
+    <script>Arona.kidou();</script>
+  </body>
+</html>

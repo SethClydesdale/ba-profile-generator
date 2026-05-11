@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8">
+    <title>Page Not Found | Blue Archive Profile Generator</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/plana.ico">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:site_name" content="sethclydesdale.github.io">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/social.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:creator" content="@SethC1995">
+    <link rel="stylesheet" href="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/plana.min.css">
+    <script src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/arona.min.js"></script>
+  </head>
+  <body class="en-lang">
+    <div style="flex:1 0 auto;">
+      <div id="content">
+        <div id="content-inner" class="clear">
+          <h1 id="logo"><a href="https://sethclydesdale.github.io/ba-profile-generator/" title="Blue Archive Profile Generator"><img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/logo.png" alt="Blue Archive Profile Generator"></a></h1>
+
+          <div id="intro-box" class="clear">
+            <p id="intro-bubble"><span class="en">I'm sorry, Sensei!<br>I couldn't find the page that you were looking for...</span><span class="ja">先生、ごめんなさい！<br>お探しのページが見つかりませんでした…</span></p>
+            <div id="intro-arona-container"><img id="arona" src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/arona/3.webp"><div id="headpat" onclick="Arona.headpat();"></div></div>
+            <div id="preload">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/arona/1.webp">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/plana/1.webp">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/arona/2.webp">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/plana/2.webp">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/arona/3.webp">
+              <img src="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/plana/3.webp">
+            </div>
+          </div>
+
+          <div class="center">
+            <button class="button menu-opt" onclick="this.querySelector('A').click();"><a href="https://sethclydesdale.github.io/ba-profile-generator/"></a><span class="en">Return to the Index</span><span class="ja">TOPページに戻る</span></button>
+          </div>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="clear">
+      <ul class="footer-left">
+        <li><a href="https://sethclydesdale.github.io/privacy/">Privacy</a></li>
+      </ul>
+
+      <ul class="footer-right">
+        <li>Created by <a href="https://github.com/SethClydesdale">Seth-sensei</a> and the <a href="https://github.com/SethClydesdale/ba-profile-generator/graphs/contributors">Kivotos Community</a></li>
+      </ul>
+    </footer>
+    
+    <script>(function (window, document) {
+      // makes corrections to the page if used on the local file system
+      if (window.location.protocol == 'file:') {
+        var domain = 'https://sethclydesdale.github.io/ba-profile-generator/',
+            a = document.querySelectorAll('a[href*="' + domain + '"], script[src*="' + domain + '"], img[src*="' + domain + '"], link[href*="' + domain + '"], #bg-404'),
+            i = 0,
+            j = a.length, script;
+        
+        for (; i < j; i++) {
+          switch (a[i].tagName) {
+            // change the anchor values to their offline files
+            case 'A' :
+              a[i].href = a[i].href.replace(domain, '');
+              /404\.html$/.test(a[i].href) ? a[i].href = './index.html' : a[i].href += 'index.html';
+              break;
+            
+            // change link sources to their offline resources
+            case 'LINK' :
+              a[i].href = a[i].href.replace(domain, '');
+              break;
+              
+            // change the js source to the offline version
+            case 'SCRIPT' :
+              // since we cannot stop js execution, check if the user actually has no internet connection before appending the script
+              if (!/ga\.js$/.test(a[i].src) && /file:/.test(window.location.href)) {
+                script = document.createElement('SCRIPT');
+                script.src = a[i].src.replace(domain, '');
+                script.type = 'text/javascript';
+                
+                a[i].parentNode.removeChild(a[i]);
+                document.body.appendChild(script);
+              }
+              break;
+              
+            // change image source
+            case 'IMG' :
+              a[i].src = a[i].src.replace(domain, '');
+              break;
+              
+            // change background image source
+            case 'DIV' :
+              a[i].style.backgroundImage = a[i].style.backgroundImage.replace(domain, '');
+              break;
+          }
+        }
+      }
+    }(window, document));
+    
+    window.onload = function () {
+      Arona.kidou();
+
+      // quick lang change
+      if (storageOK && localStorage.BAProfile && !/"lang":"en"/.test(localStorage.BAProfile)) {
+        Arona.profile.lang = localStorage.BAProfile.replace(/.*?"lang":"(.*?)".*/gmi, '$1');
+        document.body.className = Arona.profile.lang + '-lang';
+      }
+
+      // quick background change
+      if (Arona.asleep) {
+        document.documentElement.className = 'night';
+      }
+      
+      // get and cache Arona/Plana's elements
+      Arona.body = document.getElementById('arona');
+      Arona.container = document.getElementById('intro-arona-container');
+
+      // things to do while Arona is snoozing
+      if (Arona.asleep) {
+        // change Arona to Plana 
+        Arona.expression(3);
+
+        // change tone of dialogue for Plana
+        var introBubble = document.getElementById('intro-bubble');
+        introBubble.innerHTML = introBubble.innerHTML.replace(/!/g, '.').replace(/！/g, '。');
+      }
+    };
+    </script>
+  </body>
+</html>

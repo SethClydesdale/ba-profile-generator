@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+  <head>
+    <title>Blue Archive Profile Generator</title>
+    <meta name="title" content="Blue Archive Profile Generator">
+    <meta name="twitter:title" content="Blue Archive Profile Generator">
+    <meta property="og:title" content="Blue Archive Profile Generator">
+    <meta name="description" content="Create and share your Blue Archive profile with others.">
+    <meta property="og:description" content="Create and share your Blue Archive profile with others.">
+    <link rel="shortcut icon" type="image/x-icon" href="shittim-chest/images/plana.ico">
+
+    <meta name="keywords" content="Blue Archive profile, ブルアカプロフィール, templates, テンプレート">
+    <meta name="language" content="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:site_name" content="sethclydesdale.github.io">
+    <meta property="og:url" content="https://sethclydesdale.github.io/ba-profile-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/images/social.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:creator" content="@SethC1995">
+
+    <link rel="stylesheet" href="shittim-chest/plana.min.css">
+    <script src="shittim-chest/arona.min.js"></script>
+    <script src="shittim-chest/html2canvas.min.js"></script>
+    <script src="shittim-chest/ga.js" async></script>
+  </head>
+
+  <body ondrop="Arona.dropFile(event);" class="en-lang">
+<script>
+// quick lang change
+if (storageOK && localStorage.BAProfile && !/"lang":"en"/.test(localStorage.BAProfile)) {
+  Arona.profile.lang = localStorage.BAProfile.replace(/.*?"lang":"(.*?)".*/gmi, '$1');
+  document.body.className = Arona.profile.lang + '-lang';
+}
+  
+// quick background change
+if (Arona.asleep) {
+  document.documentElement.className = 'night';
+}
+</script>
+    <div id="content">
+      <div id="content-inner">
+        <h1 id="logo"><a href="./" title="Blue Archive Profile Generator"><img src="shittim-chest/images/logo.png" alt="Blue Archive Profile Generator"></a></h1>
+        <div id="intro-box" class="clear">
+          <p id="intro-bubble"><span class="en">Welcome to the Blue Archive Profile Generator, Sensei!</span><span class="ja">先生、ブルアカプロフィールジェネレーターへようこそ！</span><br><span class="en">This website will let you create your own personal Blue Archive Profile card that you can share with other players.</span><span class="ja">ここで自分のブルアカプロフィールカードを作ることができます。</span><br><span class="en">Fill in the information below, then click "generate" under the preview to generate your image!</span><span class="ja">次の情報を書き込み終わったら、プレビューの下の「生成する」をクリックしてください！</span></p>
+          <div id="intro-arona-container"><img id="arona" src="shittim-chest/images/arona/1.webp"><div id="headpat" onclick="Arona.headpat();"></div></div>
+          <div id="preload">
+            <img src="shittim-chest/images/arona/2.webp">
+            <img src="shittim-chest/images/plana/2.webp">
+          </div>
+          <script>
+            // get and cache Arona/Plana's elements
+            Arona.body = document.getElementById('arona');
+            Arona.container = document.getElementById('intro-arona-container');
+            
+            // things to do while Arona is snoozing
+            if (Arona.asleep) {
+              // change Arona to Plana 
+              Arona.expression(1);
+              
+              // change tone of dialogue for Plana
+              var introBubble = document.getElementById('intro-bubble');
+              introBubble.innerHTML = introBubble.innerHTML.replace(/!/g, '.').replace(/！/g, '。');
+            }
+          </script>
+        </div>
+        
+        <div id="button-options">
+          <span class="en"><a class="link-profiles button" href="https://x.com/search?q=%23BlueArchiveProfile&src=typed_query&f=live" target="_blank"><i class="fa">&#x1D54F;</i><i>#BlueArchiveProfile</i></a></span>
+          <span class="ja"><a class="link-profiles button" href="https://x.com/search?q=%23%E3%83%96%E3%83%AB%E3%82%A2%E3%82%AB%E3%83%97%E3%83%AD%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB&src=typed_query&f=live" target="_blank"><i class="fa">&#x1D54F;</i><i>#ブルアカプロフィール</i></a></span>
+          <a id="link-download" class="button" href="shittim-chest/template/BA%20Profile%20Templates.zip"><i class="fa">&#xf019;</i><span class="en">Templates</span><span class="ja">テンプレート</span></a>
+          <a id="link-contact" class="button" href="contact/"><i class="fa">&#xf1d8;</i><span class="en">Contact</span><span class="ja">連絡する</span></a>
+          <a id="link-github" class="button" href="https://github.com/SethClydesdale/ba-profile-generator"><i class="fa">&#xf09b;</i><i>GitHub</i></a><br>
+        </div>
+        
+        <div id="info-zone">
+          <h2 id="info"><span class="en">Profile</span><span class="ja">プロフィール</span></h2>
+          <div class="info-row">
+            <label class="label" for="info-lang"><span class="en">Language:</span><span class="ja">言語：</span></label>
+            <select id="info-lang" onchange="Arona.updateProfile(this, 'lang');">
+              <option value="en" selected>English</option>
+              <option value="ja">日本語</option>
+            </select>
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-avatar"><span class="en">Avatar:</span><span class="ja">プロフィール写真：</span></label>
+            <div class="sub-container clear">
+              <div id="avatar-prev"></div>
+              <select id="info-avatar" onchange="Arona.updateProfile(this, 'avatar');">
+                <option value="custom" data-en="Custom" data-ja="カスタム"></option>
+                <optgroup data-en="Schale" data-ja="シャーレ" label="">
+                  <option value="arona" data-en="Arona" data-ja="アロナ" selected></option>
+                  <option value="plana" data-en="Plana" data-ja="プラナ"></option>
+                  <option value="sensei" data-en="Sensei (Game)" data-ja="先生（ゲーム）"></option>
+                  <option value="sensei2" data-en="Sensei (Anime)" data-ja="先生（アニメ）"></option>
+                  <option value="sensei3" data-en="Sensei (GDD Manga)" data-ja="先生（GKBの漫画）"></option>
+                  <option value="sensei4" data-en="Sensei (PS68 Manga)" data-ja="先生（便利屋68の漫画）"></option>
+                  <option value="sora" data-en="Sora" data-ja="ソラ"></option>
+                </optgroup>
+                <optgroup data-en="Abydos" data-ja="アビドス" label="">
+                  <option value="ayane" data-en="Ayane" data-ja="アヤネ"></option>
+                  <option value="ayane_swimsuit" data-en="Ayane (Swimsuit)" data-ja="アヤネ（水着）"></option>
+                  <option value="hoshino" data-en="Hoshino" data-ja="ホシノ"></option>
+                  <option value="hoshino_battle" data-en="Hoshino (Armed)" data-ja="ホシノ（臨戦）"></option>
+                  <option value="hoshino_swimsuit" data-en="Hoshino (Swimsuit)" data-ja="ホシノ（水着）"></option>
+                  <option value="nonomi" data-en="Nonomi" data-ja="ノノミ"></option>
+                  <option value="nonomi_swimsuit" data-en="Nonomi (Swimsuit)" data-ja="ノノミ（水着）"></option>
+                  <option value="serika" data-en="Serika" data-ja="セリカ"></option>
+                  <option value="serika_new_year" data-en="Serika (New Year)" data-ja="セリカ（正月）"></option>
+                  <option value="serika_swimsuit" data-en="Serika (Swimsuit)" data-ja="セリカ（水着）"></option>
+                  <option value="shiroko" data-en="Shiroko" data-ja="シロコ"></option>
+                  <option value="shiroko_riding" data-en="Shiroko (Riding)" data-ja="シロコ（ライディング）"></option>
+                  <option value="shiroko_swimsuit" data-en="Shiroko (Swimsuit)" data-ja="シロコ（水着）"></option>
+                  <option value="shiroko_terror" data-en="Shiroko＊Terror" data-ja="シロコ＊テラー"></option>
+                </optgroup>
+                <optgroup data-en="Arius" data-ja="アリウス" label="">
+                  <option value="atsuko" data-en="Atsuko" data-ja="アツコ"></option>
+                  <option value="atsuko_swimsuit" data-en="Atsuko (Swimsuit)" data-ja="アツコ（水着）"></option>
+                  <option value="hiyori" data-en="Hiyori" data-ja="ヒヨリ"></option>
+                  <option value="hiyori_swimsuit" data-en="Hiyori (Swimsuit)" data-ja="ヒヨリ（水着）"></option>
+                  <option value="misaki" data-en="Misaki" data-ja="ミサキ"></option>
+                  <option value="misaki_swimsuit" data-en="Misaki (Swimsuit)" data-ja="ミサキ（水着）"></option>
+                  <option value="saori" data-en="Saori" data-ja="サオリ"></option>
+                  <option value="saori_dress" data-en="Saori (Dress)" data-ja="サオリ（ドレス）"></option>
+                  <option value="saori_swimsuit" data-en="Saori (Swimsuit)" data-ja="サオリ（水着）"></option>
+                  <option value="subaru" data-en="Subaru" data-ja="スバル"></option>
+                </optgroup>
+                <optgroup data-en="Collab" data-ja="コラボ" label="">
+                  <option value="hatsune_miku" data-en="Hatsune Miku" data-ja="初音ミク"></option>
+                  <option value="misaka_mikoto" data-en="Misaka Mikoto" data-ja="御坂美琴"></option>
+                  <option value="shokuhou_misaki" data-en="Shokuhou Misaki" data-ja="食蜂操祈"></option>
+                  <option value="saten_ruiko" data-en="Saten Ruiko" data-ja="佐天涙子"></option>
+                </optgroup>
+                <optgroup data-en="Gehenna" data-ja="ゲヘナ" label="">
+                  <option value="akari" data-en="Akari" data-ja="アカリ"></option>
+                  <option value="akari_new_year" data-en="Akari (New Year)" data-ja="アカリ（正月）"></option>
+                  <option value="ako" data-en="Ako" data-ja="アコ"></option>
+                  <option value="ako_dress" data-en="Ako (Dress)" data-ja="アコ（ドレス）"></option>
+                  <option value="aru" data-en="Aru" data-ja="アル"></option>
+                  <option value="aru_dress" data-en="Aru (Dress)" data-ja="アル（ドレス）"></option>
+                  <option value="aru_new_year" data-en="Aru (New Year)" data-ja="アル（正月）"></option>
+                  <option value="chiaki" data-en="Chiaki" data-ja="チアキ"></option>
+                  <option value="chinatsu" data-en="Chinatsu" data-ja="チナツ"></option>
+                  <option value="chinatsu_hot_spring" data-en="Chinatsu (Hot Spring)" data-ja="チナツ（温泉）"></option>
+                  <option value="fuuka" data-en="Fuuka" data-ja="フウカ"></option>
+                  <option value="fuuka_new_year" data-en="Fuuka (New Year)" data-ja="フウカ（正月）"></option>
+                  <option value="haruka" data-en="Haruka" data-ja="ハルカ"></option>
+                  <option value="haruka_new_year" data-en="Haruka (New Year)" data-ja="ハルカ（正月）"></option>
+                  <option value="haruna" data-en="Haruna" data-ja="ハルナ"></option>
+                  <option value="haruna_new_year" data-en="Haruna (New Year)" data-ja="ハルナ（正月）"></option>
+                  <option value="haruna_sportswear" data-en="Haruna (Gym)" data-ja="ハルナ（体操服）"></option>
+                  <option value="hina" data-en="Hina" data-ja="ヒナ"></option>
+                  <option value="hina_dress" data-en="Hina (Dress)" data-ja="ヒナ（ドレス）"></option>
+                  <option value="hina_swimsuit" data-en="Hina (Swimsuit)" data-ja="ヒナ（水着）"></option>
+                  <option value="ibuki" data-en="Ibuki" data-ja="イブキ"></option>
+                  <option value="iori" data-en="Iori" data-ja="イオリ"></option>
+                  <option value="iori_swimsuit" data-en="Iori (Swimsuit)" data-ja="イオリ（水着）"></option>
+                  <option value="iroha" data-en="Iroha" data-ja="イロハ"></option>
+                  <option value="izumi" data-en="Izumi" data-ja="イズミ"></option>
+                  <option value="izumi_new_year" data-en="Izumi (New Year)" data-ja="イズミ（正月）"></option>
+                  <option value="izumi_swimsuit" data-en="Izumi (Swimsuit)" data-ja="イズミ（水着）"></option>
+                  <option value="junko" data-en="Junko" data-ja="ジュンコ"></option>
+                  <option value="junko_new_year" data-en="Junko (New Year)" data-ja="ジュンコ（正月）"></option>
+                  <option value="juri" data-en="Juri" data-ja="ジュリ"></option>
+                  <option value="juri_part-timer" data-en="Juri (Part-Timer)" data-ja="ジュリ（アルバイト）"></option>
+                  <option value="kasumi" data-en="Kasumi" data-ja="カスミ"></option>
+                  <option value="kayoko" data-en="Kayoko" data-ja="カヨコ"></option>
+                  <option value="kayoko_dress" data-en="Kayoko (Dress)" data-ja="カヨコ（ドレス）"></option>
+                  <option value="kayoko_new_year" data-en="Kayoko (New Year)" data-ja="カヨコ（正月）"></option>
+                  <option value="kirara" data-en="Kirara" data-ja="キララ"></option>
+                  <option value="makoto" data-en="Makoto" data-ja="マコト"></option>
+                  <option value="megu" data-en="Megu" data-ja="メグ"></option>
+                  <option value="mutsuki" data-en="Mutsuki" data-ja="ムツキ"></option>
+                  <option value="mutsuki_new_year" data-en="Mutsuki (New Year)" data-ja="ムツキ（正月）"></option>
+                  <option value="satsuki" data-en="Satsuki" data-ja="サツキ"></option>
+                  <option value="sena" data-en="Sena" data-ja="セナ"></option>
+                  <option value="sena_casual" data-en="Sena (Casual)" data-ja="セナ（私服）"></option>
+                </optgroup>
+                <optgroup data-en="General Student Council" data-ja="連邦生徒会" label="">
+                  <option value="aoi" data-en="Aoi" data-ja="アオイ"></option>
+                  <option value="ayumu" data-en="Ayumu" data-ja="アユム"></option>
+                  <option value="momoka" data-en="Momoka" data-ja="モモカ"></option>
+                  <option value="rin" data-en="Rin" data-ja="リン"></option>
+                </optgroup>
+                <optgroup data-en="Highlander" data-ja="ハイランダー" label="">
+                  <option value="aoba" data-en="Aoba" data-ja="アオバ"></option>
+                  <option value="hikari" data-en="Hikari" data-ja="ヒカリ"></option>
+                  <option value="nozomi" data-en="Nozomi" data-ja="ノゾミ"></option>
+                </optgroup>
+                <optgroup data-en="Hyakkiyako" data-ja="百鬼夜行" label="">
+                  <option value="chise" data-en="Chise" data-ja="チセ"></option>
+                  <option value="chise_swimsuit" data-en="Chise (Swimsuit)" data-ja="チセ（水着）"></option>
+                  <option value="izuna" data-en="Izuna" data-ja="イズナ"></option>
+                  <option value="izuna_swimsuit" data-en="Izuna (Swimsuit)" data-ja="イズナ（水着）"></option>
+                  <option value="kaede" data-en="Kaede" data-ja="カエデ"></option>
+                  <option value="kaho" data-en="Kaho" data-ja="カホ"></option>
+                  <option value="kikyou" data-en="Kikyou" data-ja="キキョウ"></option>
+                  <option value="kikyou_swimsuit" data-en="Kikyou (Swimsuit)" data-ja="キキョウ（水着）"></option>
+                  <option value="michiru" data-en="Michiru" data-ja="ミチル"></option>
+                  <option value="michiru_dress" data-en="Michiru (Dress)" data-ja="ミチル（ドレス）"></option>
+                  <option value="mimori" data-en="Mimori" data-ja="ミモリ"></option>
+                  <option value="mimori_swimsuit" data-en="Mimori (Swimsuit)" data-ja="ミモリ（水着）"></option>
+                  <option value="nagusa" data-en="Nagusa" data-ja="ナグサ"></option>
+                  <option value="niya" data-en="Niya" data-ja="ニヤ"></option>
+                  <option value="pina" data-en="Pina" data-ja="フィーナ"></option>
+                  <option value="pina_guide" data-en="Pina (Guide)" data-ja="フィーナ（ガイド）"></option>
+                  <option value="renge" data-en="Renge" data-ja="レンゲ"></option>
+                  <option value="renge_swimsuit" data-en="Renge (Swimsuit)" data-ja="レンゲ（水着）"></option>
+                  <option value="shizuko" data-en="Shizuko" data-ja="シズコ"></option>
+                  <option value="shizuko_swimsuit" data-en="Shizuko (Swimsuit)" data-ja="シズコ（水着）"></option>
+                  <option value="tsubaki" data-en="Tsubaki" data-ja="ツバキ"></option>
+                  <option value="tsubaki_guide" data-en="Tsubaki (Guide)" data-ja="ツバキ（ガイド）"></option>
+                  <option value="tsukuyo" data-en="Tsukuyo" data-ja="ツクヨ"></option>
+                  <option value="tsukuyo_dress" data-en="Tsukuyo (Dress)" data-ja="ツクヨ（ドレス）"></option>
+                  <option value="umika" data-en="Umika" data-ja="ウミカ"></option>
+                  <option value="wakamo" data-en="Wakamo" data-ja="ワカモ"></option>
+                  <option value="wakamo_swimsuit" data-en="Wakamo (Swimsuit)" data-ja="ワカモ（水着）"></option>
+                  <option value="yukari" data-en="Yukari" data-ja="ユカリ"></option>
+                  <option value="yukari_swimsuit" data-en="Yukari (Swimsuit)" data-ja="ユカリ（水着）"></option>
+                </optgroup>
+                <optgroup data-en="Millennium" data-ja="ミレニアム" label="">
+                  <option value="akane" data-en="Akane" data-ja="アカネ"></option>
+                  <option value="akane_bunny_girl" data-en="Akane (Bunny)" data-ja="アカネ（バニーガール）"></option>
+                  <option value="akane_school_uniform" data-en="Akane (School)" data-ja="アカネ（制服）"></option>
+                  <option value="arisu" data-en="Aris" data-ja="アリス"></option>
+                  <option value="arisu_battle" data-en="Aris (Armed)" data-ja="アリス（臨戦）"></option>
+                  <option value="arisu_maid" data-en="Aris (Maid)" data-ja="アリス（メイド）"></option>
+                  <option value="asuna" data-en="Asuna" data-ja="アスナ"></option>
+                  <option value="asuna_bunny_girl" data-en="Asuna (Bunny)" data-ja="アスナ（バニーガール）"></option>
+                  <option value="asuna_school_uniform" data-en="Asuna (School)" data-ja="アスナ（制服）"></option>
+                  <option value="chihiro" data-en="Chihiro" data-ja="チヒロ"></option>
+                  <option value="eimi" data-en="Eimi" data-ja="エイミ"></option>
+                  <option value="eimi_battle" data-en="Eimi (Armed)" data-ja="エイミ（臨戦）"></option>
+                  <option value="eimi_swimsuit" data-en="Eimi (Swimsuit)" data-ja="エイミ（水着）"></option>
+                  <option value="hare" data-en="Hare" data-ja="ハレ"></option>
+                  <option value="hare_camping" data-en="Hare (Camp)" data-ja="ハレ（キャンプ）"></option>
+                  <option value="hibiki" data-en="Hibiki" data-ja="ヒビキ"></option>
+                  <option value="hibiki_cheerleader" data-en="Hibiki (Cheer Squad)" data-ja="ヒビキ（応援団）"></option>
+                  <option value="himari" data-en="Himari" data-ja="ヒマリ"></option>
+                  <option value="himari_battle" data-en="Himari (Armed)" data-ja="ヒマリ（臨戦）"></option>
+                  <option value="karin" data-en="Karin" data-ja="カリン"></option>
+                  <option value="karin_bunny_girl" data-en="Karin (Bunny)" data-ja="カリン（バニーガール）"></option>
+                  <option value="karin_school_uniform" data-en="Karin (School)" data-ja="カリン（制服）"></option>
+                  <option value="kei" data-en="Kei" data-ja="ケイ"></option>
+                  <option value="kotama" data-en="Kotama" data-ja="コタマ"></option>
+                  <option value="kotama_camping" data-en="Kotama (Camp)" data-ja="コタマ（キャンプ）"></option>
+                  <option value="kotori" data-en="Kotori" data-ja="コトリ"></option>
+                  <option value="kotori_cheerleader" data-en="Kotori (Cheer Squad)" data-ja="コトリ（応援団）"></option>
+                  <option value="koyuki" data-en="Koyuki" data-ja="コユキ"></option>
+                  <option value="koyuki_pajama" data-en="Koyuki (Pajamas)" data-ja="コユキ（パジャマ）"></option>
+                  <option value="maki" data-en="Maki" data-ja="マキ"></option>
+                  <option value="maki_camping" data-en="Maki (Camp)" data-ja="マキ（キャンプ）"></option>
+                  <option value="midori" data-en="Midori" data-ja="ミドリ"></option>
+                  <option value="midori_maid" data-en="Midori (Maid)" data-ja="ミドリ（メイド）"></option>
+                  <option value="momoi" data-en="Momoi" data-ja="モモイ"></option>
+                  <option value="momoi_maid" data-en="Momoi (Maid)" data-ja="モモイ（メイド）"></option>
+                  <option value="neru" data-en="Neru" data-ja="ネル"></option>
+                  <option value="neru_bunny_girl" data-en="Neru (Bunny)" data-ja="ネル（バニーガール）"></option>
+                  <option value="neru_school_uniform" data-en="Neru (School)" data-ja="ネル（制服）"></option>
+                  <option value="noa" data-en="Noa" data-ja="ノア"></option>
+                  <option value="noa_pajama" data-en="Noa (Pajamas)" data-ja="ノア（パジャマ）"></option>
+                  <option value="rei" data-en="Rei" data-ja="レイ"></option>
+                  <option value="rio" data-en="Rio" data-ja="リオ"></option>
+                  <option value="rio_battle" data-en="Rio (Armed)" data-ja="リオ（臨戦）"></option>
+                  <option value="sumire" data-en="Sumire" data-ja="スミレ"></option>
+                  <option value="sumire_part-timer" data-en="Sumire (Part-Timer)" data-ja="スミレ（アルバイト）"></option>
+                  <option value="toki" data-en="Toki" data-ja="トキ"></option>
+                  <option value="toki_battle" data-en="Toki (Armed)" data-ja="トキ（臨戦）"></option>
+                  <option value="toki_bunny_girl" data-en="Toki (Bunny)" data-ja="トキ（バニーガール）"></option>
+                  <option value="utaha" data-en="Utaha" data-ja="ウタハ"></option>
+                  <option value="utaha_cheerleader" data-en="Utaha (Cheer Squad)" data-ja="ウタハ（応援団）"></option>
+                  <option value="yuuka" data-en="Yuuka" data-ja="ユウカ"></option>
+                  <option value="yuuka_pajama" data-en="Yuuka (Pajamas)" data-ja="ユウカ（パジャマ）"></option>
+                  <option value="yuuka_sportswear" data-en="Yuuka (Gym)" data-ja="ユウカ（体操服）"></option>
+                  <option value="yuzu" data-en="Yuzu" data-ja="ユズ"></option>
+                  <option value="yuzu_battle" data-en="Yuzu (Armed)" data-ja="ユズ（臨戦）"></option>
+                  <option value="yuzu_maid" data-en="Yuzu (Maid)" data-ja="ユズ（メイド）"></option>
+                </optgroup>
+                <optgroup data-en="Red Winter" data-ja="レッドウィンター" label="">
+                  <option value="cherino" data-en="Cherino" data-ja="チェリノ"></option>
+                  <option value="cherino_hot_spring" data-en="Cherino (Hot Spring)" data-ja="チェリノ（温泉）"></option>
+                  <option value="marina" data-en="Marina" data-ja="マリナ"></option>
+                  <option value="marina_qipao" data-en="Marina (Qipao)" data-ja="マリナ（チャイナ）"></option>
+                  <option value="meru" data-en="Meru" data-ja="メル"></option>
+                  <option value="minori" data-en="Minori" data-ja="ミノリ"></option>
+                  <option value="momiji" data-en="Momiji" data-ja="モミジ"></option>
+                  <option value="nodoka" data-en="Nodoka" data-ja="ノドカ"></option>
+                  <option value="nodoka_hot_spring" data-en="Nodoka (Hot Spring)" data-ja="ノドカ（温泉）"></option>
+                  <option value="shigure" data-en="Shigure" data-ja="シグレ"></option>
+                  <option value="shigure_hot_spring" data-en="Shigure (Hot Spring)" data-ja="シグレ（温泉）"></option>
+                  <option value="takane" data-en="Takane" data-ja="タカネ"></option>
+                  <option value="tomoe" data-en="Tomoe" data-ja="トモエ"></option>
+                  <option value="tomoe_qipao" data-en="Tomoe (Qipao)" data-ja="トモエ（チャイナ）"></option>
+                  <option value="yakumo" data-en="Yakumo" data-ja="ヤクモ"></option>
+                </optgroup>
+                <optgroup data-en="SRT" data-ja="SRT" label="">
+                  <option value="miyako" data-en="Miyako" data-ja="ミヤコ"></option>
+                  <option value="miyako_swimsuit" data-en="Miyako (Swimsuit)" data-ja="ミヤコ（水着）"></option>
+                  <option value="miyu" data-en="Miyu" data-ja="ミユ"></option>
+                  <option value="miyu_swimsuit" data-en="Miyu (Swimsuit)" data-ja="ミユ（水着）"></option>
+                  <option value="moe" data-en="Moe" data-ja="モエ"></option>
+                  <option value="moe_swimsuit" data-en="Moe (Swimsuit)" data-ja="モエ（水着）"></option>
+                  <option value="niko" data-en="Niko" data-ja="ニコ"></option>
+                  <option value="otogi" data-en="Otogi" data-ja="オトギ"></option>
+                  <option value="saki" data-en="Saki" data-ja="サキ"></option>
+                  <option value="saki_swimsuit" data-en="Saki (Swimsuit)" data-ja="サキ（水着）"></option>
+                </optgroup>
+                <optgroup data-en="Shanhaijing" data-ja="山海経" label="">
+                  <option value="kisaki" data-en="Kisaki" data-ja="キサキ"></option>
+                  <option value="kokona" data-en="Kokona" data-ja="ココナ"></option>
+                  <option value="mina" data-en="Mina" data-ja="ミナ"></option>
+                  <option value="reijo" data-en="Reijo" data-ja="レイジョ"></option>
+                  <option value="rumi" data-en="Rumi" data-ja="ルミ"></option>
+                  <option value="saya" data-en="Saya" data-ja="サヤ"></option>
+                  <option value="saya_casual" data-en="Saya (Casual)" data-ja="サヤ（私服）"></option>
+                  <option value="shun" data-en="Shun" data-ja="シュン"></option>
+                  <option value="shun_kid" data-en="Shun (Small)" data-ja="シュン（幼女）"></option>
+                </optgroup>
+                <optgroup data-en="Trinity" data-ja="トリニティ" label="">
+                  <option value="airi" data-en="Airi" data-ja="アイリ"></option>
+                  <option value="airi_band" data-en="Airi (Band)" data-ja="アイリ（バンド）"></option>
+                  <option value="azusa" data-en="Azusa" data-ja="アズサ"></option>
+                  <option value="azusa_swimsuit" data-en="Azusa (Swimsuit)" data-ja="アズサ（水着）"></option>
+                  <option value="hanae" data-en="Hanae" data-ja="ハナエ"></option>
+                  <option value="hanae_christmas" data-en="Hanae (Christmas)" data-ja="ハナエ（クリスマス）"></option>
+                  <option value="hanako" data-en="Hanako" data-ja="ハナコ"></option>
+                  <option value="hanako_swimsuit" data-en="Hanako (Swimsuit)" data-ja="ハナコ（水着）"></option>
+                  <option value="hasumi" data-en="Hasumi" data-ja="ハスミ"></option>
+                  <option value="hasumi_sportswear" data-en="Hasumi (Gym)" data-ja="ハスミ（体操服）"></option>
+                  <option value="hasumi_swimsuit" data-en="Hasumi (Swimsuit)" data-ja="ハスミ（水着）"></option>
+                  <option value="hifumi" data-en="Hifumi" data-ja="ヒフミ"></option>
+                  <option value="hifumi_swimsuit" data-en="Hifumi (Swimsuit)" data-ja="ヒフミ（水着）"></option>
+                  <option value="hinata" data-en="Hinata" data-ja="ヒナタ"></option>
+                  <option value="hinata_swimsuit" data-en="Hinata (Swimsuit)" data-ja="ヒナタ（水着）"></option>
+                  <option value="ichika" data-en="Ichika" data-ja="イチカ"></option>
+                  <option value="ichika_swimsuit" data-en="Ichika (Swimsuit)" data-ja="イチカ（水着）"></option>
+                  <option value="kazusa" data-en="Kazusa" data-ja="カズサ"></option>
+                  <option value="kazusa_band" data-en="Kazusa (Band)" data-ja="カズサ（バンド）"></option>
+                  <option value="koharu" data-en="Koharu" data-ja="コハル"></option>
+                  <option value="koharu_swimsuit" data-en="Koharu (Swimsuit)" data-ja="コハル（水着）"></option>
+                  <option value="mari" data-en="Mari" data-ja="マリ"></option>
+                  <option value="mari_idol" data-en="Mari (Pop Idol)" data-ja="マリ（アイドル）"></option>
+                  <option value="mari_sportswear" data-en="Mari (Gym)" data-ja="マリ（体操服）"></option>
+                  <option value="mashiro" data-en="Mashiro" data-ja="マシロ"></option>
+                  <option value="mashiro_swimsuit" data-en="Mashiro (Swimsuit)" data-ja="マシロ（水着）"></option>
+                  <option value="mika" data-en="Mika" data-ja="ミカ"></option>
+                  <option value="mika_swimsuit" data-en="Mika (Swimsuit)" data-ja="ミカ（水着）"></option>
+                  <option value="mine" data-en="Mine" data-ja="ミネ"></option>
+                  <option value="mine_idol" data-en="Mine (Pop Idol)" data-ja="ミネ（アイドル）"></option>
+                  <option value="nagisa" data-en="Nagisa" data-ja="ナギサ"></option>
+                  <option value="nagisa_swimsuit" data-en="Nagisa (Swimsuit)" data-ja="ナギサ（水着）"></option>
+                  <option value="natsu" data-en="Natsu" data-ja="ナツ"></option>
+                  <option value="natsu_band" data-en="Natsu (Band)" data-ja="ナツ（バンド）"></option>
+                  <option value="rabu" data-en="Rabu" data-ja="ラブ"></option>
+                  <option value="reisa" data-en="Reisa" data-ja="レイサ"></option>
+                  <option value="reisa_magical" data-en="Reisa (Magical)" data-ja="レイサ（マジカル）"></option>
+                  <option value="sakurako" data-en="Sakurako" data-ja="サクラコ"></option>
+                  <option value="sakurako_idol" data-en="Sakurako (Pop Idol)" data-ja="サクラコ（アイドル）"></option>
+                  <option value="seia" data-en="Seia" data-ja="セイア"></option>
+                  <option value="seia_swimsuit" data-en="Seia (Swimsuit)" data-ja="セイア（水着）"></option>
+                  <option value="serina" data-en="Serina" data-ja="セリナ"></option>
+                  <option value="serina_christmas" data-en="Serina (Christmas)" data-ja="セリナ（クリスマス）"></option>
+                  <option value="shimiko" data-en="Shimiko" data-ja="シミコ"></option>
+                  <option value="suzumi" data-en="Suzumi" data-ja="スズミ"></option>
+                  <option value="suzumi_magical" data-en="Suzumi (Magical)" data-ja="スズミ（マジカル）"></option>
+                  <option value="tsurugi" data-en="Tsurugi" data-ja="ツルギ"></option>
+                  <option value="tsurugi_swimsuit" data-en="Tsurugi (Swimsuit)" data-ja="ツルギ（水着）"></option>
+                  <option value="ui" data-en="Ui" data-ja="ウイ"></option>
+                  <option value="ui_swimsuit" data-en="Ui (Swimsuit)" data-ja="ウイ（水着）"></option>
+                  <option value="yoshimi" data-en="Yoshimi" data-ja="ヨシミ"></option>
+                  <option value="yoshimi_band" data-en="Yoshimi (Band)" data-ja="ヨシミ（バンド）"></option>
+                </optgroup>
+                <optgroup data-en="Valkyrie" data-ja="ヴァルキューレ" label="">
+                  <option value="fubuki" data-en="Fubuki" data-ja="フブキ"></option>
+                  <option value="fubuki_swimsuit" data-en="Fubuki (Swimsuit)" data-ja="フブキ（水着）"></option>
+                  <option value="kanna" data-en="Kanna" data-ja="カンナ"></option>
+                  <option value="kanna_swimsuit" data-en="Kanna (Swimsuit)" data-ja="カンナ（水着）"></option>
+                  <option value="kirino" data-en="Kirino" data-ja="キリノ"></option>
+                  <option value="kirino_swimsuit" data-en="Kirino (Swimsuit)" data-ja="キリノ（水着）"></option>
+                  <option value="konoka" data-en="Konoka" data-ja="コノカ"></option>
+                </optgroup>
+                <optgroup data-en="Wildhunt" data-ja="ワイルドハント" label="">
+                  <option value="eri" data-en="Eri" data-ja="エリ"></option>
+                  <option value="fuyu" data-en="Fuyu" data-ja="フユ"></option>
+                  <option value="kanoe" data-en="Kanoe" data-ja="カノエ"></option>
+                  <option value="miyo" data-en="Miyo" data-ja="ミヨ"></option>
+                  <option value="rena" data-en="Rena" data-ja="レナ"></option>
+                  <option value="ritsu" data-en="Ritsu" data-ja="リツ"></option>
+                </optgroup>
+              </select><br>
+              <button id="uploadAvatar" class="button" onclick="this.nextSibling.click();"><i class="fa">&#xf093;</i><span class="en">Upload</span><span class="ja">アップロードする</span></button><input id="info-avatarCustom" type="file" accept="image/*" onchange="Arona.updateProfile(this, 'avatarCustom');">
+              <span id="avatarOK" class="uploadOK" style="display:none;"><span class="en">Uploaded!</span><span class="ja">アップロードした！</span><img src="shittim-chest/images/arona-yay.png"></span>
+              <div class="recommendedSize"><b>400x400</b><span class="en"> is recommended</span><span class="ja">がおすすめ</span></div>
+            </div>
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-background"><span class="en">Background:</span><span class="ja">壁紙：</span></label>
+            <div class="sub-container clear">
+              <div id="bg-prev"></div>
+              <select id="info-background" onchange="Arona.updateProfile(this, 'background');">
+                <option value="custom" data-en="Custom" data-ja="カスタム"></option>
+                <optgroup data-en="Scenery" data-ja="景色" label="">
+                  <option value="arona-room" data-en="Arona's Room" data-ja="アロナの部屋" selected></option>
+                  <option value="plana-room" data-en="Plana's Room" data-ja="プラナの部屋"></option>
+                  <option value="abydos" data-en="Abydos" data-ja="アビドス"></option>
+                  <option value="abydos2" data-en="Abydos 2" data-ja="アビドス2"></option>
+                  <option value="abydos3" data-en="Abydos 3" data-ja="アビドス3"></option>
+                  <option value="abydos4" data-en="Abydos 4" data-ja="アビドス4"></option>
+                  <option value="arius" data-en="Arius" data-ja="アリウス"></option>
+                  <option value="arius2" data-en="Arius 2" data-ja="アリウス2"></option>
+                  <option value="atrahasis" data-en="Atra-Hasis' Ark" data-ja="アトラ・ハシースの箱舟"></option>
+                  <option value="beach" data-en="Beach" data-ja="浜"></option>
+                  <option value="city" data-en="City" data-ja="都市"></option>
+                  <option value="classroom" data-en="Classroom" data-ja="教室"></option>
+                  <option value="eridu" data-en="Eridu" data-ja="エリドゥ"></option>
+                  <option value="eridu2" data-en="Eridu 2" data-ja="エリドゥ2"></option>
+                  <option value="eridu3" data-en="Eridu 3" data-ja="エリドゥ3"></option>
+                  <option value="gdd-room" data-en="GDD Clubroom" data-ja="GKBの部室"></option>
+                  <option value="gdd-room2" data-en="GDD Clubroom 2" data-ja="GKBの部室2"></option>
+                  <option value="gehenna" data-en="Gehenna" data-ja="ゲヘナ"></option>
+                  <option value="gehenna2" data-en="Gehenna 2" data-ja="ゲヘナ2"></option>
+                  <option value="gehenna3" data-en="Gehenna 3" data-ja="ゲヘナ3"></option>
+                  <option value="gsc-desk" data-en="GSC President's Desk" data-ja="連邦生徒会長の机"></option>
+                  <option value="hyakkiyako" data-en="Hyakkiyako" data-ja="百鬼夜行"></option>
+                  <option value="hyakkiyako2" data-en="Hyakkiyako 2" data-ja="百鬼夜行2"></option>
+                  <option value="hyakkiyako3" data-en="Hyakkiyako 3" data-ja="百鬼夜行3"></option>
+                  <option value="hyakkiyako4" data-en="Hyakkiyako 4" data-ja="百鬼夜行4"></option>
+                  <option value="hyakkiyako5" data-en="Hyakkiyako 5" data-ja="百鬼夜行5"></option>
+                  <option value="kivotos" data-en="Kivotos" data-ja="キヴォトス"></option>
+                  <option value="millennium" data-en="Millennium" data-ja="ミレニアム"></option>
+                  <option value="millennium2" data-en="Millennium 2" data-ja="ミレニアム2"></option>
+                  <option value="millennium3" data-en="Millennium 3" data-ja="ミレニアム3"></option>
+                  <option value="playground" data-en="Playground" data-ja="遊び場"></option>
+                  <option value="port" data-en="Port" data-ja="港"></option>
+                  <option value="redwinter" data-en="Red Winter" data-ja="レッドウィンター"></option>
+                  <option value="redwinter2" data-en="Red Winter 2" data-ja="レッドウィンター2"></option>
+                  <option value="riverside" data-en="Riverside" data-ja="川辺"></option>
+                  <option value="sanctum-tower" data-en="Sanctum Tower" data-ja="サンクトゥムタワー"></option>
+                  <option value="schale" data-en="Schale" data-ja="シャーレ"></option>
+                  <option value="schale2" data-en="Schale 2" data-ja="シャーレ2"></option>
+                  <option value="schale3" data-en="Schale 3" data-ja="シャーレ3"></option>
+                  <option value="shanhaijing" data-en="Shanhaijing" data-ja="山海経"></option>
+                  <option value="shanhaijing2" data-en="Shanhaijing 2" data-ja="山海経2"></option>
+                  <option value="sky" data-en="Sky" data-ja="空"></option>
+                  <option value="sky2" data-en="Sky 2" data-ja="空2"></option>
+                  <option value="sky3" data-en="Sky 3" data-ja="空3"></option>
+                  <option value="trinity" data-en="Trinity" data-ja="トリニテイ"></option>
+                  <option value="trinity2" data-en="Trinity 2" data-ja="トリニテイ2"></option>
+                  <option value="trinity3" data-en="Trinity 3" data-ja="トリニテイ3"></option>
+                  <option value="trinity4" data-en="Trinity 4" data-ja="トリニテイ4"></option>
+                  <option value="valkyrie" data-en="Valkyrie" data-ja="ヴァルキューレ"></option>
+                  <option value="wildhunt" data-en="Wild Hunt" data-ja="ワイルドハント"></option>
+                  <option value="wildhunt2" data-en="Wild Hunt 2" data-ja="ワイルドハント2"></option>
+                  <option value="wildhunt3" data-en="Wild Hunt 3" data-ja="ワイルドハント3"></option>
+                </optgroup>
+                <optgroup data-en="Students" data-ja="生徒" label="">
+                  <option value="aris" data-en="Aris" data-ja="アリス"></option>
+                  <option value="aris2" data-en="Aris 2" data-ja="アリス2"></option>
+                  <option value="aris3" data-en="Aris 3" data-ja="アリス3"></option>
+                  <option value="aris4" data-en="Aris 4" data-ja="アリス4"></option>
+                  <option value="ariskei" data-en="Aris & Kei" data-ja="アリスとケイ"></option>
+                  <option value="ariskei2" data-en="Aris & Kei 2" data-ja="アリスとケイ2"></option>
+                  <option value="arisneru" data-en="Aris & Neru" data-ja="アリスとネル"></option>
+                  <option value="arona" data-en="Arona" data-ja="アロナ"></option>
+                  <option value="arona2" data-en="Arona 2" data-ja="アロナ2"></option>
+                  <option value="arona3" data-en="Arona 3" data-ja="アロナ3"></option>
+                  <option value="arona4" data-en="Arona 4" data-ja="アロナ4"></option>
+                  <option value="aroplana" data-en="Arona & Plana" data-ja="アロプラナ"></option>
+                  <option value="aroplana2" data-en="Arona & Plana 2" data-ja="アロプラナ2"></option>
+                  <option value="azusa" data-en="Azusa" data-ja="アズサ"></option>
+                  <option value="azusa2" data-en="Azusa 2" data-ja="アズサ2"></option>
+                  <option value="cherino" data-en="Cherino" data-ja="チェリノ"></option>
+                  <option value="fubuki" data-en="Fubuki" data-ja="フブキ"></option>
+                  <option value="ftf" data-en="Foreclosure Task Force" data-ja="対策委員会"></option>
+                  <option value="ftf2" data-en="Foreclosure Task Force 2" data-ja="対策委員会2"></option>
+                  <option value="gdd" data-en="GDD" data-ja="GKB"></option>
+                  <option value="gdd2" data-en="GDD 2" data-ja="GKB2"></option>
+                  <option value="gdd3" data-en="GDD 3" data-ja="GKB3"></option>
+                  <option value="gdd4" data-en="GDD 4" data-ja="GKB4"></option>
+                  <option value="gdd5" data-en="GDD 5" data-ja="GKB5"></option>
+                  <option value="gourmet" data-en="Gourmet Research Society" data-ja="美食研究会"></option>
+                  <option value="haruka" data-en="Haruka" data-ja="ハルカ"></option>
+                  <option value="hifumi" data-en="Hifumi" data-ja="ヒフミ"></option>
+                  <option value="hikarinozomi" data-en="Hikari & Nozomi" data-ja="ヒカリとノゾミ"></option>
+                  <option value="hina" data-en="Hina" data-ja="ヒナ"></option>
+                  <option value="hina2" data-en="Hina 2" data-ja="ヒナ2"></option>
+                  <option value="hina3" data-en="Hina 3" data-ja="ヒナ3"></option>
+                  <option value="hoshihina" data-en="Hoshino & Hina" data-ja="ホシノとヒナ"></option>
+                  <option value="hoshino" data-en="Hoshino" data-ja="ホシノ"></option>
+                  <option value="hoshino2" data-en="Hoshino 2" data-ja="ホシノ2"></option>
+                  <option value="hoshino3" data-en="Hoshino 3" data-ja="ホシノ3"></option>
+                  <option value="ibuki" data-en="Ibuki" data-ja="イブキ"></option>
+                  <option value="iroha" data-en="Iroha" data-ja="イロハ"></option>
+                  <option value="kei" data-en="Kei" data-ja="ケイ"></option>
+                  <option value="koharu" data-en="Koharu" data-ja="コハル"></option>
+                  <option value="koyuki" data-en="Koyuki" data-ja="コユキ"></option>
+                  <option value="mika" data-en="Mika" data-ja="ミカ"></option>
+                  <option value="mutsuki" data-en="Mutsuki" data-ja="ムツキ"></option>
+                  <option value="neru" data-en="Neru" data-ja="ネル"></option>
+                  <option value="neru2" data-en="Neru 2" data-ja="ネル2"></option>
+                  <option value="occult" data-en="Occult Research Society" data-ja="オカルト研究会"></option>
+                  <option value="pandemonium" data-en="Pandemonium Society" data-ja="万魔殿"></option>
+                  <option value="plana" data-en="Plana" data-ja="プラナ"></option>
+                  <option value="ps68" data-en="Problem Solver 68" data-ja="便利屋68"></option>
+                  <option value="reisa" data-en="Reisa" data-ja="レイサ"></option>
+                  <option value="seia" data-en="Seia" data-ja="セイア"></option>
+                  <option value="seia2" data-en="Seia 2" data-ja="セイア2"></option>
+                  <option value="seia3" data-en="Seia 3" data-ja="セイア3"></option>
+                  <option value="shunkisaki" data-en="Shun & Kisaki" data-ja="シュンとキサキ"></option>
+                  <option value="shunkokona" data-en="Shun & Kokona" data-ja="シュンとココナ"></option>
+                  <option value="sisterhood" data-en="The Sisterhood" data-ja="シスターフッド"></option>
+                  <option value="toki" data-en="Toki" data-ja="トキ"></option>
+                  <option value="wakamo" data-en="Wakamo" data-ja="ワカモ"></option>
+                  <option value="yuzu" data-en="Yuzu" data-ja="ユズ"></option>
+                </optgroup>
+              </select><br>
+              <button id="uploadBackground" class="button" onclick="this.nextSibling.click();"><i class="fa">&#xf093;</i><span class="en">Upload</span><span class="ja">アップロードする</span></button><input id="info-backgroundCustom" type="file" accept="image/*" onchange="Arona.updateProfile(this, 'backgroundCustom');">
+              <span id="backgroundOK" class="uploadOK" style="display:none;"><span class="en">Uploaded!</span><span class="ja">アップロードした！</span><img src="shittim-chest/images/aris-yay.png"></span>
+              <div class="recommendedSize"><b>1074x1470</b><span class="en"> is recommended</span><span class="ja">がおすすめ</span></div>
+            </div>
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-name"><span class="en">Name:</span><span class="ja">名前：</span></label>
+            <input id="info-name" type="text" oninput="Arona.updateProfile(this, 'text');">
+            <input id="info-nameColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-handle">ID:</label>
+            <input id="info-handle" type="text" oninput="Arona.updateProfile(this, 'text');">
+            <input id="info-handleColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-gender"><span class="en">Gender:</span><span class="ja">性別：</span></label>
+            <select id="info-gender" onchange="Arona.updateProfile(this, 'gender');">
+              <option value="null" data-en="N/A" data-ja="無し" selected></option>
+              <option value="male" data-en="Male" data-ja="男"></option>
+              <option value="female" data-en="Female" data-ja="女"></option>
+              <option value="other" data-en="Other" data-ja="他"></option>
+            </select>
+          </div>
+          
+          <h2 id="completed"><span class="en">Story Completed</span><span class="ja">クリアしたストーリー</span></h2>
+          <div class="info-row">
+            <div class="info-sub-row">
+              <label class="label"><span class="en">Part 1:</span><span class="ja">第1部：</span></label>
+              <label class="checkbox"><input id="info-p1_v1" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.1</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_v2" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.2</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_v3" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.3</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_vf" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.F</label>
+            </div>
+            <div class="info-sub-row">
+              <label class="label empty"></label>
+              <label class="checkbox"><input id="info-p1_v4" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.4</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_v5" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.5</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_v6" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.6</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p1_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label>
+            </div>
+            
+            <div class="info-sub-row">
+              <label class="label"><span class="en">Part 2:</span><span class="ja">第2部：</span></label>
+              <label class="checkbox"><input id="info-p2_v0" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.0</label><span class="divider"></span>
+              <label class="checkbox"><input id="info-p2_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label>
+            </div>
+          </div>
+          
+          <h2 id="favorite"><span class="en">Favorite</span><span class="ja">特に好きな</span></h2>
+          <div class="info-row">
+            <label class="label" for="info-favstory"><span class="en">Story/Events:</span><span class="ja">ストーリー/イベント：</span></label>
+            <textarea id="info-favstory" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-favstoryColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-favchar"><span class="en">Students/Chars:</span><span class="ja">生徒/キャラ：</span></label>
+            <textarea id="info-favchar" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-favcharColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-favschool"><span class="en">Schools/Clubs:</span><span class="ja">学園/部：</span></label>
+            <textarea id="info-favschool" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-favschoolColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <div class="info-row">
+            <label class="label" for="info-favlobby"><span class="en">Recollection Lobby:</span><span class="ja">メモリアルロビー：</span></label>
+            <textarea id="info-favlobby" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-favlobbyColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <h2 id="about"><span class="en">About Me</span><span class="ja">自己紹介</span></h2>
+          <div class="info-row">
+            <label class="label empty"></label>
+            <textarea id="info-about" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-aboutColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+          
+          <h2 id="wants"><span class="en">Things I Want <small>(students, features...)</small></span><span class="ja">欲しいもの <small>(生徒や機能など)</small></span></h2>
+          <div class="info-row">
+            <label class="label empty"></label>
+            <textarea id="info-wants" class="large-input" oninput="Arona.updateProfile(this, 'text');"></textarea>
+            <input id="info-wantsColor" type="color" oninput="Arona.updateProfile(this, 'fontColor');">
+          </div>
+        </div>
+
+        <div id="profile-controls" class="center">
+          <button id="downloadProfile" class="button" onclick="Arona.downloadProfile();"><i class="fa">&#xf0c7;</i><span class="en">Save</span><span class="ja">セーブする</span></button>
+          <button id="uploadProfile" class="button" onclick="this.nextSibling.click();"><i class="fa">&#xf15c;</i><span class="en">Load</span><span class="ja">ロードする</span></button><input id="fileLoader" type="file" accept=".json" onchange="Arona.uploadProfile(this);">
+          <button id="resetProfile" class="button" onclick="Arona.resetProfile();"><i class="fa">&#xf01e;</i><span class="en">Reset</span><span class="ja">リセットする</span></button>
+        </div>
+        
+        <h2 id="preview"><span class="en">Preview</span><span class="ja">プレビュー</span></h2>
+        <div class="info-row">
+          <label class="label" for="info-prevMode"><span class="en">Preview Mode:</span><span class="ja">プレビューモード：</span></label>
+          <select id="info-prevMode" onchange="Arona.updateProfile(this, 'prevMode');">
+            <option value="full" data-en="Full" data-ja="丸見え" selected></option>
+            <option value="zoom" data-en="Zoom" data-ja="ズーム"></option>
+          </select>
+        </div>
+        <div class="center">
+          <div id="preview-box" class="prev-full">
+            <div id="template" class="null-gender">
+              <div id="ba-lang"></div>
+              <div id="ba-avatar-container"><div id="ba-avatar"></div></div>
+              <div id="ba-name" class="text-zone"></div>
+              <div id="ba-handle" class="text-zone"></div>
+              <div id="ba-gender" class="circle"></div>
+              <div id="ba-p1_v1" class="rect"></div>
+              <div id="ba-p1_v2" class="rect"></div>
+              <div id="ba-p1_v3" class="rect"></div>
+              <div id="ba-p1_vf" class="rect"></div>
+              <div id="ba-p1_v4" class="rect"></div>
+              <div id="ba-p1_v5" class="rect"></div>
+              <div id="ba-p1_v6" class="rect"></div>
+              <div id="ba-p1_vex" class="rect"></div>
+              <div id="ba-p2_v0" class="rect"></div>
+              <div id="ba-p2_vex" class="rect"></div>
+              <div id="ba-favstory" class="text-zone"></div>
+              <div id="ba-favchar" class="text-zone"></div>
+              <div id="ba-favschool" class="text-zone"></div>
+              <div id="ba-favlobby" class="text-zone"></div>
+              <div id="ba-about" class="text-zone"></div>
+              <div id="ba-wants" class="text-zone"></div>
+            </div>
+            <script>Arona.restoreProfile();</script>
+          </div>
+        </div>
+        
+        <div class="center">
+          <button id="generateProfile" class="button" onclick="Arona.generateProfile();"><i class="fa">&#xf0d0;</i><span class="en">Generate</span><span class="ja">生成する</span></button>
+        </div>
+        <br>
+        
+        <div id="aris-easter-egg" class="center">
+          <div id="aris-container"><img id="aris" src="shittim-chest/images/aris.png"><div id="aris-headpat" onclick="Arona.headpatAris();"></div></div>
+        </div>
+        <div class="center">
+          <div id="aris-dialogue" class="dialogue">
+            <div id="message-1">
+              <span class="en">Sensei!<br>Please give Aris a headpat!</span>
+              <span class="ja">先生！<br>アリス、なでなでしてほしいです！</span>
+            </div>
+            <div id="message-2" style="display:none;">
+              <span class="en">Thank you, Sensei!<br>Aris is really happy now!</span>
+              <span class="ja">ありがとうございます、先生！！<br>アリス、とっても嬉しいです！</span>
+            </div>
+          </div>
+        </div>
+        <br>
+        
+        <div class="clear">
+          <div id="yuzu-easter-egg" onclick="Arona.unbox();"><img id="yuzu" src="shittim-chest/images/yuzu-unboxed.png"><img id="yuzu-box" src="shittim-chest/images/yuzu-box.png"></div>
+          <div id="momomido-easter-egg"><img id="midori" src="shittim-chest/images/midori.png" onclick="Arona.kachimashita();"><img id="momoi" src="shittim-chest/images/momoi.png" onclick="Arona.kuyashi();"></div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="clear">
+      <ul class="footer-left">
+        <li><a href="https://sethclydesdale.github.io/privacy/">Privacy</a></li>
+      </ul>
+
+      <ul class="footer-right">
+        <li>Created by <a href="https://github.com/SethClydesdale">Seth-sensei</a> and the <a href="https://github.com/SethClydesdale/ba-profile-generator/graphs/contributors">Kivotos Community</a></li>
+      </ul>
+    </footer>
+    
+    <script>Arona.kidou();</script>
+  </body>
+</html>
