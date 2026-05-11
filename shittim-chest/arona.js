@@ -135,7 +135,7 @@
     cache : {},
     
     
-    // updates the kiseki profile with new data
+    // updates the profile with new data
     updateProfile : function (caller, type) {
       switch (type) {
         case 'lang' :
