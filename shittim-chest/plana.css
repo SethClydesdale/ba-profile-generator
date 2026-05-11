@@ -384,7 +384,7 @@ input[type="file"] {
 .complete:after {
   content:"\f00c";
   color:#080;
-  font-family:fontawesome;
+  font-family:FontAwesomeWeb, FontAwesome;
   font-size:20px;
   height:20px;
   width:20px;
