@@ -79,8 +79,9 @@ I only know English and Japanese, so I can only manage these translations of Blu
 7. LANG_NAME should be the name of the language in its native tongue (i.e., English, 日本語...).
 8. After this you can add in text specific to your language using the `<span class="LANG_CODE">TEXT</span>` tag. LANG_CODE should be the code you added earlier in lowercase. TEXT should be the translation in that language.
 9. You will see many `<span class="en">` and `<span class="ja">` tags. Simply place your translation at the end of this set of tags. For example: `<span class="en">...</span><span class="ja">...</span><span class="LANG_CODE">...</span>`
-9. When you're finished translating, make sure to save and contribute your changes.
-10. Finally, when you're ready to submit your changes for review, open a [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) in this repository.
+10. When you're finished translating, make sure to save and contribute your changes.
+11. Provide us a translation for the texts in [this template](https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/template/en.png) or [download and edit the template file](https://drive.google.com/file/d/12Bp19muWGk8Qdt5l0GvTQS69XALdB0ZT/view?usp=sharing) and provide it to us in your PR.
+12. Finally, when you're ready to submit your changes for review, open a [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) in this repository.
 
 If everything looks good, we will approve and merge your changes! Thank you!
 
