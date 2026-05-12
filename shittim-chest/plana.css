@@ -6,8 +6,6 @@
   font-style:normal;
   font-display:swap;
   ascent-override:100%;
-  descent-override:0%;
-  line-gap-override:0%;
 }
 
 @font-face {
@@ -420,11 +418,14 @@ input[type="file"] {
   font-size:38px;
   left:595px;
   width:363px;
-  overflow:visible !important;
-  line-height:normal !important;
+  height:60px;
+  line-height:75px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
 }
-#ba-name { top:181px; }
-#ba-handle { top:355px; }
+#ba-name { top:162px; }
+#ba-handle { top:336px; }
 
 #ba-gender { top:441px; }
 .male-gender #ba-gender {
