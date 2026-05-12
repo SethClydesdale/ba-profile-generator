@@ -793,7 +793,7 @@
         chapters: [
           '<span class="en">Snake of Wisdom</span><span class="ja">知恵の蛇</span>',
           '<span class="en">Flaming Sword</span><span class="ja">炎の剣</span>',
-          '<span class="en">Inseparable Sky</span><span class="ja">不離一体の空</span>'
+          '<span class="en">The Sky of Unity</span><span class="ja">不離一体の空</span>'
         ]
       },
       
