@@ -389,7 +389,7 @@ input[type="file"] {
   line-height:20px;
   position:absolute;
   top:10px;
-  left:-25px;
+  left:-27px;
 }
 
 #ba-avatar-container {
@@ -546,9 +546,6 @@ input[type="file"] {
   font-size:28px;
   font-weight:normal;
 }
-
-.ja-lang #ba-name { top:185px; }
-.ja-lang #ba-handle { top:360px; }
 
 .ja-lang .male-gender #ba-gender { left:738px; }
 .ja-lang .female-gender #ba-gender { left:891px; }
@@ -1195,12 +1192,24 @@ footer li:first-child:before { display:none; }
   display:block;
 }
 
+.story-slider-mode .complete {
+  border-color:#024077;
+}
+
+.story-slider-mode .complete:after {
+  content:"\f02e";
+  color:#024077;
+}
+
+.story-slider-mode .complete.complete-max:after {
+  content:"\f00c";
+  color:#080;
+}
+
 .story-slider-mode .rect.complete-max {
-  border-color:#E8559A;
+  border-color:#080;
 }
-.story-slider-mode .rect.complete-max:after {
-  color:#E8559A;
-}
+
 
 /* Detail mode: one vol per line */
 #story-completed-section.slider-mode .info-sub-row {

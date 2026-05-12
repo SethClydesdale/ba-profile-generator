@@ -82,12 +82,13 @@ I only know English and Japanese, so I can only manage these translations of Blu
 8. After this you can add in text specific to your language using the `<span class="LANG_CODE">TEXT</span>` tag. LANG_CODE should be the code you added earlier in lowercase. TEXT should be the translation in that language.
 9. You will see many `<span class="en">` and `<span class="ja">` tags. Simply place your translation at the end of this set of tags. For example: `<span class="en">...</span><span class="ja">...</span><span class="LANG_CODE">...</span>`. For `<option>` and `<optgroup>` tags, you will see `data-en="TEXT"`, `data-ja="TEXT"`, etc. You can add you translation for these tags by adding your language using the same method: `data-LANG_CODE="TEXT"`. LANG_CODE is again, the language code you selected earlier. Then inside the quotes, you put your translation where TEXT is.
 10. When you're finished translating, make sure to save and contribute your changes.
-11. Provide us a translation for the texts in [this template](https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/template/en.png) or [download and edit the template file](https://drive.google.com/file/d/12Bp19muWGk8Qdt5l0GvTQS69XALdB0ZT/view?usp=sharing) and provide it to us in your PR.
-12. Finally, when you're ready to submit your changes for review, open a [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) in this repository.
+12. There is one more file to edit: arona.js. In this file you will find the titles for each volume and chapter under **storyData : {**. It is the same process of using our `<span class="LANG_CODE">TEXT</span>` to add our translation.
+13. Provide us a translation for the texts in [this template](https://sethclydesdale.github.io/ba-profile-generator/shittim-chest/template/en.png) or [download and edit the template file](https://drive.google.com/file/d/12Bp19muWGk8Qdt5l0GvTQS69XALdB0ZT/view?usp=sharing) and provide it to us in your PR.
+14. Finally, when you're ready to submit your changes for review, open a [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) in this repository.
 
 If everything looks good, we will approve and merge your changes! Thank you!
 
-**Advanced note:** For those testing offline, you must modify the CSS to hide the newly added language on other selections and then update the minified CSS file as well.
+**Advanced note:** For those testing offline, you must modify the CSS to hide the newly added language on other selections as well.
 
 ```css
 .en, .ja, .LANG_CODE {
@@ -114,6 +115,7 @@ We handle this after PRs for those unfamilar with CSS.
 
 ## Special Thanks
 This project was made possible thanks to...
+- [demetrNieA](https://github.com/SethClydesdale/ba-profile-generator/pull/2) for detailed mode.
 - [**Past Seth**](https://github.com/SethClydesdale/kiseki-profile-generator) for Kiseki Profile Generator which was used as a template for this project.
 - [**Blue Archive Wiki**](https://bluearchive.wiki/wiki/Main_Page) for a majority of the avatars used in our templates.
 - [**bluearchive-logo**](https://github.com/nulla2011/Bluearchive-logo) for our logo image.

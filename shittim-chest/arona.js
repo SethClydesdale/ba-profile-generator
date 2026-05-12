@@ -62,6 +62,15 @@
         input[i].insertAdjacentHTML('afterend', '<span tabindex="0" class="pseudo_' + input[i].type + '" onclick="this.previousSibling.click(); return false;" onkeypress="event.key == \'Enter\' && this.previousSibling.click(); return false;"/>');
       }
       
+      // set max value for detailed mode inputs
+      for (var a = document.querySelectorAll('.story-slider'), i = 0, j = a.length, id; i < j; i++) {
+        id = a[i].id.replace(/info-(.*?)_level/, '$1');
+        
+        if (Arona.storyData[id]) {
+          a[i].max = Arona.storyData[id].maxChapters;
+        }
+      }
+      
       // set text for options based on the selected language
       Arona.parseOptions();
     },
@@ -290,7 +299,7 @@
                   bn = document.getElementById('ba-' + sdVols[j]),
                   sdv = Arona.storyData[sdVols[j]];
               if (cf) { cf.disabled = true; cf.checked = lv > 0; }
-              if (le) le.textContent = Arona.storyLevelText(sdVols[j], lv);
+              if (le) le.innerHTML = Arona.storyLevelText(sdVols[j], lv);
               if (bn && sdv) {
                 if (lv === sdv.maxChapters) {
                   if (!/ complete-max/.test(bn.className)) bn.className += ' complete-max';
@@ -349,7 +358,7 @@
           
           // update chapter label
           var levelLabel = document.getElementById('label-' + volKey);
-          if (levelLabel) levelLabel.textContent = Arona.storyLevelText(volKey, lvNum);
+          if (levelLabel) levelLabel.innerHTML = Arona.storyLevelText(volKey, lvNum);
           
           if (Arona.profile.storySliderMode) {
             Arona.drawStoryRadar();
@@ -710,54 +719,98 @@
     // chapter metadata for each story volume
     storyData : {
       p1_v1 : {
-        label: 'V1', displayLabel: 'Vol. 1', maxChapters: 3,
-        title: 'Foreclosure Task Force',
-        chapters: ['Strange Days for the Task Force', 'Things Lost and Others Held On To', 'Traces of a Dream']
+        label: 'V1', displayLabel: 'Vol.1', maxChapters: 3,
+        title: '<span class="en">Foreclosure Task Force</span><span class="ja">対策委員会編</span>',
+        chapters: [
+          '<span class="en">Strange Days for the Task Force</span><span class="ja">対策委員会の奇妙な1日</span>',
+          '<span class="en">Things Lost and Others Held On To</span><span class="ja">失ったもの、手放さなかったもの</span>',
+          '<span class="en">Traces of a Dream</span><span class="ja">夢が残した足跡</span>'
+        ]
       },
+      
       p1_v2 : {
-        label: 'V2', displayLabel: 'Vol. 2', maxChapters: 2,
-        title: 'Clockwork Flower Pavane',
-        chapters: ['Retromania', 'The Romance of Friendship, Courage, and Light']
+        label: 'V2', displayLabel: 'Vol.2', maxChapters: 2,
+        title: '<span class="en">Clockwork Flower Pavane</span><span class="ja">時計じかけの花のパヴァーヌ編</span>',
+        chapters: [
+          '<span class="en">Retromania</span><span class="ja">レトロチック・ロマン</span>',
+          '<span class="en">The Romance of Friendship, Courage, and Light</span><span class="ja">友情と勇気と光のロマン</span>'
+        ]
       },
+      
       p1_v3 : {
-        label: 'V3', displayLabel: 'Vol. 3', maxChapters: 4,
-        title: 'Eden Treaty',
-        chapters: ['Make-up Work Club, Here We Go!', 'Paradise Paradox', 'Our Stories', 'Kyrie of the Forgotten Gods']
+        label: 'V3', displayLabel: 'Vol.3', maxChapters: 4,
+        title: '<span class="en">Eden Treaty</span><span class="ja">エデン条約編</span>',
+        chapters: [
+          '<span class="en">Make-up Work Club, Here We Go!</span><span class="ja">補習授業部</span>',
+          '<span class="en">Paradise Paradox</span><span class="ja">不可能な証明</span>',
+          '<span class="en">Our Stories</span><span class="ja">私たちの物語</span>',
+          '<span class="en">Kyrie of the Forgotten Gods</span><span class="ja">忘れられた神々のためのキリエ</span>'
+        ]
       },
+      
       p1_vf : {
-        label: 'VF', displayLabel: 'Vol. F', maxChapters: 4,
-        title: 'Where All Miracles Begin',
-        chapters: ['Operation Recapture Schale', "Operational Plan: Nisir's Summit", 'The Ark of Atrahasis Conquest', 'Phrenapates Showdown']
+        label: 'VF', displayLabel: 'Vol.F', maxChapters: 4,
+        title: '<span class="en">Where All Miracles Begin</span><span class="ja">あまねく奇跡の始発点編</span>',
+        chapters: [
+          '<span class="en">Operation Recapture Schale</span><span class="ja">シャーレ奪還作戦</span>',
+          '<span class="en">Operational Plan: Nisir\'s Summit</span><span class="ja">虚妄のサンクトゥム攻略戦</span>',
+          '<span class="en">The Ark of Atrahasis Conquest</span><span class="ja">アトラ・ハシースの箱舟占領戦</span>',
+          '<span class="en">Phrenapates Showdown</span><span class="ja">プレナパテス決戦</span>'
+        ]
       },
+      
       p1_v4 : {
-        label: 'V4', displayLabel: 'Vol. 4', maxChapters: 2,
-        title: 'Rabbit of Caerbannog',
-        chapters: ['RABBIT Squad, Begin Operation!', 'We Were RABBITs!']
+        label: 'V4', displayLabel: 'Vol.4', maxChapters: 2,
+        title: '<span class="en">Rabbit of Caerbannog</span><span class="ja">カルバノグの兎編</span>',
+        chapters: [
+          '<span class="en">RABBIT Squad, Begin Operation!</span><span class="ja">RABBIT小隊始動！</span>',
+          '<span class="en ja">We Were RABBITs!</span>'
+        ]
       },
+      
       p1_v5 : {
-        label: 'V5', displayLabel: 'Vol. 5', maxChapters: 2,
-        title: 'Hyakkaryouran',
-        chapters: ['Like the Flower That Wishes to Bloom', "To You, Who's Trying to Bloom Alone"]
+        label: 'V5', displayLabel: 'Vol.5', maxChapters: 2,
+        title: '<span class="en">Hyakkaryouran</span><span class="ja">百花繚乱編</span>',
+        chapters: [
+          '<span class="en">Like the Flower That Wishes to Bloom</span><span class="ja">いつかの芽吹きを待ち侘びて</span>',
+          '<span class="en">To You, Who\'s Trying to Bloom Alone</span><span class="ja">孤独に花を咲かせんとする君へ</span>'
+        ]
       },
+      
       p1_v6 : {
-        label: 'V6', displayLabel: 'Vol. 6', maxChapters: 3,
-        title: 'Oratorio of Days Gone By',
-        chapters: ['Sights Beyond the Boundary', 'Saying Goodbye to Yesterday', 'Ecclesia for the Future Left Behind']
+        label: 'V6', displayLabel: 'Vol.6', maxChapters: 3,
+        title: '<span class="en">Oratorio of Days Gone By</span><span class="ja">過ぎ去りし刻のオラトリオ編</span>',
+        chapters: [
+          '<span class="en">Sights Beyond the Boundary</span><span class="ja">見えない私たちの境界線</span>',
+          '<span class="en">Saying Goodbye to Yesterday</span><span class="ja">あの刻に告げし決別</span>',
+          '<span class="en">Ecclesia for the Future Left Behind</span><span class="ja">遺された未来のためのエクレシア</span>'
+        ]
       },
+      
       p1_vex : {
-        label: 'VEx', displayLabel: 'Vol. EX', maxChapters: 2,
-        title: 'Decagrammaton',
-        chapters: ['Snake of Wisdom', 'Flaming Sword']
+        label: 'VEx', displayLabel: 'Vol.EX', maxChapters: 3,
+        title: '<span class="en">Decagrammaton</span><span class="ja">デカグラマトン編</span>',
+        chapters: [
+          '<span class="en">Snake of Wisdom</span><span class="ja">知恵の蛇</span>',
+          '<span class="en">Flaming Sword</span><span class="ja">炎の剣</span>',
+          '<span class="en">Inseparable Sky</span><span class="ja">不離一体の空</span>'
+        ]
       },
+      
       p2_v0 : {
-        label: 'P2 V0', displayLabel: 'Part 2 Vol. 0', maxChapters: 1,
-        title: 'General Student Council',
-        chapters: ['Chapter 1']
+        label: 'P2 V0', displayLabel: 'Part 2 Vol.0', maxChapters: 1,
+        title: '<span class="en">General Student Council</span><span class="ja">連邦生徒会編</span>',
+        chapters: [
+          '<span class="en">On a Spring Day When Almond Blossoms Are in Bloom</span><span class="ja">アーモンドの花咲く春の日に</span>'
+        ]
       },
+      
       p2_vex : {
-        label: 'P2 VEx', displayLabel: 'Part 2 Vol. EX', maxChapters: 1,
-        title: 'Volume EX',
-        chapters: ['Chapter 1']
+        label: 'P2 VEx', displayLabel: 'Part 2 Vol.EX', maxChapters: 1,
+        title: '<span class="en">In Pursuit of Loa</span><span class="ja">ロア追跡</span>',
+        chapters: [
+          '<span class="en">A Mirage at Noon</span><span class="ja">正午の陽炎</span>'
+        ]
       }
     },
     
@@ -766,7 +819,7 @@
     storyLevelText : function (volKey, level) {
       if (!level) return '';
       var sd = Arona.storyData[volKey];
-      return sd.displayLabel + ' [' + sd.title + ': Chapter ' + level + ' \u2014 ' + sd.chapters[level - 1] + ']';
+      return sd.displayLabel + ' [' + sd.title + ': <span class="en">Chapter </span>' + level + '<span class="ja">章</span> \u2014 ' + sd.chapters[level - 1] + ']';
     },
     
     
@@ -847,8 +900,8 @@
         r     = norm * maxR;
         ctx.beginPath();
         ctx.arc(cx + r * Math.cos(angle), cy + r * Math.sin(angle), isMax ? 7 : 5, 0, 2 * Math.PI);
-        ctx.fillStyle   = isMax ? '#E8559A' : '#024077';
-        ctx.strokeStyle = isMax ? '#C0407A' : 'transparent';
+        ctx.fillStyle   = isMax ? '#008800' : '#024077';
+        ctx.strokeStyle = isMax ? '#006600' : 'transparent';
         ctx.lineWidth   = isMax ? 2 : 0;
         ctx.fill();
         if (isMax) ctx.stroke();
