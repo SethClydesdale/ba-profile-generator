@@ -537,6 +537,20 @@ if (Arona.asleep) {
           </div>
           
           <div class="info-row">
+            <label class="label" for="info-gender"><span class="en">Server:</span><span class="ja">サーバー：</span></label>
+            <select id="info-server" onchange="Arona.updateProfile(this, 'text');">
+              <option value="" selected></option>
+              <option value="Asia">Asia</option>
+              <option value="CN">CN</option>
+              <option value="EU">EU</option>
+              <option value="JP">JP</option>
+              <option value="KR">KR</option>
+              <option value="NA">NA</option>
+              <option value="TW">TW</option>
+            </select>
+          </div>
+          
+          <div class="info-row">
             <label class="label" for="info-gender"><span class="en">Gender:</span><span class="ja">性別：</span></label>
             <select id="info-gender" onchange="Arona.updateProfile(this, 'gender');">
               <option value="null" data-en="N/A" data-ja="無し" selected></option>
@@ -635,6 +649,7 @@ if (Arona.asleep) {
               <div id="ba-avatar-container"><div id="ba-avatar"></div></div>
               <div id="ba-name" class="text-zone"></div>
               <div id="ba-handle" class="text-zone"></div>
+              <div id="ba-server" class="text-zone"></div>
               <div id="ba-gender" class="circle"></div>
               <div id="ba-p1_v1" class="rect"></div>
               <div id="ba-p1_v2" class="rect"></div>

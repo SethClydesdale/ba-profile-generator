@@ -104,9 +104,12 @@
       name : '',
       nameColor : '#333333',
       
-      // twitter id
+      // friend code or id
       handle : '',
       handleColor : '#333333',
+      
+      // blue archive server
+      server : '',
       
       // part 1
       p1_v1 : false,

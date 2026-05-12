@@ -427,6 +427,25 @@ input[type="file"] {
 #ba-name { top:162px; }
 #ba-handle { top:336px; }
 
+#ba-server {
+  color:#FFF;
+  font-size:26px;
+  font-weight:bold;
+  text-align:center;
+  height:40px;
+  min-width:40px;
+  line-height:32px;
+  background:#128AFA;
+  border:2px solid #027AEA;
+  border-radius:5px;
+  top:274px;
+  left:640px;
+  padding:3px 6px;
+  box-sizing:border-box;
+}
+
+#ba-server:empty { display:none; }
+
 #ba-gender { top:441px; }
 .male-gender #ba-gender {
   border-color:#39C;
