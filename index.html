@@ -21,8 +21,8 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:creator" content="@SethC1995">
 
-    <link rel="stylesheet" href="shittim-chest/plana.min.css">
-    <script src="shittim-chest/arona.min.js"></script>
+    <link rel="stylesheet" href="shittim-chest/plana.css">
+    <script src="shittim-chest/arona.js"></script>
     <script src="shittim-chest/html2canvas.min.js"></script>
     <script src="shittim-chest/ga.js" async></script>
   </head>
@@ -548,25 +548,29 @@ if (Arona.asleep) {
           
           <h2 id="completed"><span class="en">Story Completed</span><span class="ja">クリアしたストーリー</span></h2>
           <div class="info-row">
+            <label class="label" for="info-storySliderMode"><span class="en">Detail Mode:</span><span class="ja">詳細モード：</span></label>
+            <label class="checkbox"><input id="info-storySliderMode" type="checkbox" onchange="Arona.updateProfile(this, 'storySliderMode');"><span class="en">Generate radar chart</span><span class="ja">レーダーチャートを生成</span></label>
+          </div>
+          <div id="story-completed-section" class="info-row">
             <div class="info-sub-row">
               <label class="label"><span class="en">Part 1:</span><span class="ja">第1部：</span></label>
-              <label class="checkbox"><input id="info-p1_v1" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.1</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_v2" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.2</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_v3" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.3</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_vf" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.F</label>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v1" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.1</label><input id="info-p1_v1_level" class="story-slider" type="range" min="0" max="3" value="0" title="Foreclosure Task Force&#10;0: Not started&#10;1: Ch.1 — Strange Days for the Task Force&#10;2: Ch.2 — Things Lost and Others Held On To&#10;3: Ch.3 — Traces of a Dream" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v1" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v2" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.2</label><input id="info-p1_v2_level" class="story-slider" type="range" min="0" max="2" value="0" title="Clockwork Flower Pavane&#10;0: Not started&#10;1: Ch.1 — Retromania&#10;2: Ch.2 — The Romance of Friendship, Courage, and Light" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v2" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v3" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.3</label><input id="info-p1_v3_level" class="story-slider" type="range" min="0" max="4" value="0" title="Eden Treaty&#10;0: Not started&#10;1: Ch.1 — Make-up Work Club, Here We Go!&#10;2: Ch.2 — Paradise Paradox&#10;3: Ch.3 — Our Stories&#10;4: Ch.4 — Kyrie of the Forgotten Gods" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v3" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_vf" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.F</label><input id="info-p1_vf_level" class="story-slider" type="range" min="0" max="4" value="0" title="Where All Miracles Begin&#10;0: Not started&#10;1: Ch.1 — Operation Recapture Schale&#10;2: Ch.2 — Operational Plan: Nisir's Summit&#10;3: Ch.3 — The Ark of Atrahasis Conquest&#10;4: Ch.4 — Phrenapates Showdown" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_vf" class="story-level-label"></span></span>
             </div>
             <div class="info-sub-row">
               <label class="label empty"></label>
-              <label class="checkbox"><input id="info-p1_v4" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.4</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_v5" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.5</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_v6" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.6</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p1_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v4" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.4</label><input id="info-p1_v4_level" class="story-slider" type="range" min="0" max="2" value="0" title="Rabbit of Caerbannog&#10;0: Not started&#10;1: Ch.1 — RABBIT Squad, Begin Operation!&#10;2: Ch.2 — We Were RABBITs!" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v4" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v5" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.5</label><input id="info-p1_v5_level" class="story-slider" type="range" min="0" max="2" value="0" title="Hyakkaryouran&#10;0: Not started&#10;1: Ch.1 — Like the Flower That Wishes to Bloom&#10;2: Ch.2 — To You, Who's Trying to Bloom Alone" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v5" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_v6" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.6</label><input id="info-p1_v6_level" class="story-slider" type="range" min="0" max="3" value="0" title="Oratorio of Days Gone By&#10;0: Not started&#10;1: Ch.1 — Sights Beyond the Boundary&#10;2: Ch.2 — Saying Goodbye to Yesterday&#10;3: Ch.3 — Ecclesia for the Future Left Behind" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_v6" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p1_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label><input id="info-p1_vex_level" class="story-slider" type="range" min="0" max="2" value="0" title="Decagrammaton&#10;0: Not started&#10;1: Ch.1 — Snake of Wisdom&#10;2: Ch.2 — Flaming Sword" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p1_vex" class="story-level-label"></span></span>
             </div>
             
             <div class="info-sub-row">
               <label class="label"><span class="en">Part 2:</span><span class="ja">第2部：</span></label>
-              <label class="checkbox"><input id="info-p2_v0" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.0</label><span class="divider"></span>
-              <label class="checkbox"><input id="info-p2_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label>
+              <span class="story-item"><label class="checkbox"><input id="info-p2_v0" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.0</label><input id="info-p2_v0_level" class="story-slider" type="range" min="0" max="1" value="0" title="General Student Council&#10;0: Not started&#10;1: Ch.1" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p2_v0" class="story-level-label"></span></span><span class="divider"></span>
+              <span class="story-item"><label class="checkbox"><input id="info-p2_vex" type="checkbox" onchange="Arona.updateProfile(this, 'checkbox');">Vol.Ex</label><input id="info-p2_vex_level" class="story-slider" type="range" min="0" max="1" value="0" title="Volume EX&#10;0: Not started&#10;1: Ch.1" oninput="Arona.updateProfile(this, 'storyLevel');"><span id="label-p2_vex" class="story-level-label"></span></span>
             </div>
           </div>
           
@@ -642,6 +646,7 @@ if (Arona.asleep) {
               <div id="ba-p1_vex" class="rect"></div>
               <div id="ba-p2_v0" class="rect"></div>
               <div id="ba-p2_vex" class="rect"></div>
+              <canvas id="ba-story-radar" width="500" height="280"></canvas>
               <div id="ba-favstory" class="text-zone"></div>
               <div id="ba-favchar" class="text-zone"></div>
               <div id="ba-favschool" class="text-zone"></div>
