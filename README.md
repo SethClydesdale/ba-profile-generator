@@ -32,10 +32,12 @@ This package contains both English and Japanese templates. You can edit the prov
 
 
 ## Contributing
-You are more than welcome to contribute to this project if you'd like to! Here are two ways that you can contribute:
+You are more than welcome to contribute to this project if you'd like to! Here are some ways that you can contribute:
 
 - [Contributing Avatars/Backgrounds](contributing-avatars-backgrounds)
 - [Contributing A Translation](contributing-a-translation)
+
+Aside from these methods of contribution, we also accept code and feature implementations, bug fixes, and more!
 
 
 ### Contributing Avatars/Backgrounds
