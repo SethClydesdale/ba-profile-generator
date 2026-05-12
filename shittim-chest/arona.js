@@ -113,6 +113,19 @@
       p2_v0 : false,
       p2_vex : false,
       
+      // story slider mode + per-volume progress levels (0-3)
+      storySliderMode : false,
+      p1_v1_level : 0,
+      p1_v2_level : 0,
+      p1_v3_level : 0,
+      p1_vf_level : 0,
+      p1_v4_level : 0,
+      p1_v5_level : 0,
+      p1_v6_level : 0,
+      p1_vex_level : 0,
+      p2_v0_level : 0,
+      p2_vex_level : 0,
+      
       // favorites
       favstory : '',
       favstoryColor : '#333333',
@@ -259,6 +272,89 @@
           
           Arona.profile[id] = caller.checked;
           break;
+        
+        case 'storySliderMode' :
+          var section = document.getElementById('story-completed-section'),
+              tmpl = document.getElementById('template'),
+              sdVols = ['p1_v1', 'p1_v2', 'p1_v3', 'p1_vf', 'p1_v4', 'p1_v5', 'p1_v6', 'p1_vex', 'p2_v0', 'p2_vex'];
+          
+          if (caller.checked) {
+            if (!/slider-mode/.test(section.className)) section.className += ' slider-mode';
+            if (!/story-slider-mode/.test(tmpl.className)) tmpl.className += ' story-slider-mode';
+            
+            // disable vol checkboxes and reflect slider progress
+            for (var j = 0; j < sdVols.length; j++) {
+              var cf = document.getElementById('info-' + sdVols[j]),
+                  lv = Arona.profile[sdVols[j] + '_level'] || 0,
+                  le = document.getElementById('label-' + sdVols[j]),
+                  bn = document.getElementById('ba-' + sdVols[j]),
+                  sdv = Arona.storyData[sdVols[j]];
+              if (cf) { cf.disabled = true; cf.checked = lv > 0; }
+              if (le) le.textContent = Arona.storyLevelText(sdVols[j], lv);
+              if (bn && sdv) {
+                if (lv === sdv.maxChapters) {
+                  if (!/ complete-max/.test(bn.className)) bn.className += ' complete-max';
+                } else {
+                  bn.className = bn.className.replace(' complete-max', '');
+                }
+              }
+            }
+            
+            Arona.drawStoryRadar();
+          } else {
+            section.className = section.className.replace(' slider-mode', '');
+            tmpl.className = tmpl.className.replace(' story-slider-mode', '');
+            
+            // re-enable vol checkboxes and restore boolean state, clear labels
+            for (var j = 0; j < sdVols.length; j++) {
+              var cf = document.getElementById('info-' + sdVols[j]),
+                  le = document.getElementById('label-' + sdVols[j]),
+                  bn = document.getElementById('ba-' + sdVols[j]);
+              if (cf) { cf.disabled = false; cf.checked = Arona.profile[sdVols[j]]; }
+              if (le) le.textContent = '';
+              if (bn) bn.className = bn.className.replace(' complete-max', '');
+            }
+          }
+          
+          Arona.profile.storySliderMode = caller.checked;
+          break;
+        
+        case 'storyLevel' :
+          var id = caller.id.replace('info-', ''),
+              volKey = id.replace('_level', ''),
+              lvNum = parseInt(caller.value, 10);
+          
+          Arona.profile[id] = lvNum;
+          
+          // keep boolean in sync so old instances still render rects correctly
+          Arona.profile[volKey] = lvNum > 0;
+          var boolNode = document.getElementById('ba-' + volKey);
+          if (boolNode) {
+            if (Arona.profile[volKey]) {
+              if (!/ complete/.test(boolNode.className)) boolNode.className += ' complete';
+            } else {
+              boolNode.className = boolNode.className.replace(' complete', '');
+            }
+            var sd = Arona.storyData[volKey];
+            if (sd && lvNum === sd.maxChapters) {
+              if (!/ complete-max/.test(boolNode.className)) boolNode.className += ' complete-max';
+            } else {
+              boolNode.className = boolNode.className.replace(' complete-max', '');
+            }
+          }
+          
+          // sync checkbox: disabled (controlled by slider), checked when any progress
+          var volCheck = document.getElementById('info-' + volKey);
+          if (volCheck) volCheck.checked = lvNum > 0;
+          
+          // update chapter label
+          var levelLabel = document.getElementById('label-' + volKey);
+          if (levelLabel) levelLabel.textContent = Arona.storyLevelText(volKey, lvNum);
+          
+          if (Arona.profile.storySliderMode) {
+            Arona.drawStoryRadar();
+          }
+          break;
           
         default:
           break;
@@ -281,6 +377,15 @@
     restoreProfile : function (uploaded) {
       if ((storageOK && localStorage.BAProfile) || uploaded) {
         if (!uploaded) Arona.profile = JSON.parse(localStorage.BAProfile);
+        
+        // backward compat: old profiles have no slider data — derive levels from booleans
+        if (!('storySliderMode' in Arona.profile)) {
+          Arona.profile.storySliderMode = false;
+          var storyVols = ['p1_v1', 'p1_v2', 'p1_v3', 'p1_vf', 'p1_v4', 'p1_v5', 'p1_v6', 'p1_vex', 'p2_v0', 'p2_vex'];
+          for (var k = 0; k < storyVols.length; k++) {
+            Arona.profile[storyVols[k] + '_level'] = Arona.profile[storyVols[k]] ? Arona.storyData[storyVols[k]].maxChapters : 0;
+          }
+        }
         
         for (var i in Arona.profile) {
           var field = document.getElementById('info-' + i);
@@ -328,7 +433,8 @@
               i == 'background' ? 'arona-room' :
               i == 'gender' ? 'null' :
               i == 'prevMode' ? 'full' :
-              /Color/.test(i) ? '#333333' : '';
+              /Color/.test(i) ? '#333333' :
+              /level/.test(i) ? '0' : '';
           }
           
           // lazily update profile object + storage
@@ -598,6 +704,167 @@
       // play momoi's signature "kuyashi"
       Arona.playBGM('gan');
       Arona.play('momoi');
+    },
+    
+    
+    // chapter metadata for each story volume
+    storyData : {
+      p1_v1 : {
+        label: 'V1', displayLabel: 'Vol. 1', maxChapters: 3,
+        title: 'Foreclosure Task Force',
+        chapters: ['Strange Days for the Task Force', 'Things Lost and Others Held On To', 'Traces of a Dream']
+      },
+      p1_v2 : {
+        label: 'V2', displayLabel: 'Vol. 2', maxChapters: 2,
+        title: 'Clockwork Flower Pavane',
+        chapters: ['Retromania', 'The Romance of Friendship, Courage, and Light']
+      },
+      p1_v3 : {
+        label: 'V3', displayLabel: 'Vol. 3', maxChapters: 4,
+        title: 'Eden Treaty',
+        chapters: ['Make-up Work Club, Here We Go!', 'Paradise Paradox', 'Our Stories', 'Kyrie of the Forgotten Gods']
+      },
+      p1_vf : {
+        label: 'VF', displayLabel: 'Vol. F', maxChapters: 4,
+        title: 'Where All Miracles Begin',
+        chapters: ['Operation Recapture Schale', "Operational Plan: Nisir's Summit", 'The Ark of Atrahasis Conquest', 'Phrenapates Showdown']
+      },
+      p1_v4 : {
+        label: 'V4', displayLabel: 'Vol. 4', maxChapters: 2,
+        title: 'Rabbit of Caerbannog',
+        chapters: ['RABBIT Squad, Begin Operation!', 'We Were RABBITs!']
+      },
+      p1_v5 : {
+        label: 'V5', displayLabel: 'Vol. 5', maxChapters: 2,
+        title: 'Hyakkaryouran',
+        chapters: ['Like the Flower That Wishes to Bloom', "To You, Who's Trying to Bloom Alone"]
+      },
+      p1_v6 : {
+        label: 'V6', displayLabel: 'Vol. 6', maxChapters: 3,
+        title: 'Oratorio of Days Gone By',
+        chapters: ['Sights Beyond the Boundary', 'Saying Goodbye to Yesterday', 'Ecclesia for the Future Left Behind']
+      },
+      p1_vex : {
+        label: 'VEx', displayLabel: 'Vol. EX', maxChapters: 2,
+        title: 'Decagrammaton',
+        chapters: ['Snake of Wisdom', 'Flaming Sword']
+      },
+      p2_v0 : {
+        label: 'P2 V0', displayLabel: 'Part 2 Vol. 0', maxChapters: 1,
+        title: 'General Student Council',
+        chapters: ['Chapter 1']
+      },
+      p2_vex : {
+        label: 'P2 VEx', displayLabel: 'Part 2 Vol. EX', maxChapters: 1,
+        title: 'Volume EX',
+        chapters: ['Chapter 1']
+      }
+    },
+    
+    
+    // returns the display string for a slider at a given level (empty string for 0)
+    storyLevelText : function (volKey, level) {
+      if (!level) return '';
+      var sd = Arona.storyData[volKey];
+      return sd.displayLabel + ' [' + sd.title + ': Chapter ' + level + ' \u2014 ' + sd.chapters[level - 1] + ']';
+    },
+    
+    
+    // draws a radar chart on the #ba-story-radar canvas using current slider levels
+    // each axis is normalised to [0, maxChapters] so all volumes reach the outer ring at 100%
+    drawStoryRadar : function () {
+      var canvas = document.getElementById('ba-story-radar');
+      if (!canvas) return;
+      
+      var sd     = Arona.storyData,
+          ctx    = canvas.getContext('2d'),
+          w      = canvas.width,
+          h      = canvas.height,
+          cx     = w / 2,
+          cy     = h / 2,
+          maxR   = Math.min(cx, cy) - 50,
+          keys   = ['p1_v1','p1_v2','p1_v3','p1_vf','p1_v4','p1_v5','p1_v6','p1_vex','p2_v0','p2_vex'],
+          n      = keys.length,
+          rings  = 3,
+          i, angle, x, y, r, norm;
+      
+      ctx.clearRect(0, 0, w, h);
+      
+      // grid rings (drawn at 1/3, 2/3, 3/3 of maxR)
+      for (var ring = 1; ring <= rings; ring++) {
+        r = (ring / rings) * maxR;
+        ctx.beginPath();
+        for (i = 0; i < n; i++) {
+          angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+          x = cx + r * Math.cos(angle);
+          y = cy + r * Math.sin(angle);
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(2,64,119,0.25)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        if (ring === rings) {
+          ctx.fillStyle = 'rgba(18,138,250,0.05)';
+          ctx.fill();
+        }
+      }
+      
+      // axes
+      for (i = 0; i < n; i++) {
+        angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + maxR * Math.cos(angle), cy + maxR * Math.sin(angle));
+        ctx.strokeStyle = 'rgba(2,64,119,0.25)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      
+      // data polygon — normalise each value to [0,1] using its own maxChapters
+      ctx.beginPath();
+      for (i = 0; i < n; i++) {
+        angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        norm  = (Arona.profile[keys[i] + '_level'] || 0) / sd[keys[i]].maxChapters;
+        r     = norm * maxR;
+        x     = cx + r * Math.cos(angle);
+        y     = cy + r * Math.sin(angle);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle   = 'rgba(18,138,250,0.35)';
+      ctx.fill();
+      ctx.strokeStyle = '#024077';
+      ctx.lineWidth   = 2;
+      ctx.stroke();
+      
+      // data point dots — pink when volume is fully completed
+      for (i = 0; i < n; i++) {
+        var lvl   = Arona.profile[keys[i] + '_level'] || 0;
+        var isMax = lvl >= sd[keys[i]].maxChapters;
+        angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        norm  = lvl / sd[keys[i]].maxChapters;
+        r     = norm * maxR;
+        ctx.beginPath();
+        ctx.arc(cx + r * Math.cos(angle), cy + r * Math.sin(angle), isMax ? 7 : 5, 0, 2 * Math.PI);
+        ctx.fillStyle   = isMax ? '#E8559A' : '#024077';
+        ctx.strokeStyle = isMax ? '#C0407A' : 'transparent';
+        ctx.lineWidth   = isMax ? 2 : 0;
+        ctx.fill();
+        if (isMax) ctx.stroke();
+      }
+      
+      // labels
+      ctx.font         = 'bold 16px Cuprum, CuprumWeb, sans-serif';
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      for (i = 0; i < n; i++) {
+        angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+        x = cx + (maxR + 35) * Math.cos(angle);
+        y = cy + (maxR + 35) * Math.sin(angle);
+        ctx.fillStyle = 'rgba(2,64,119,0.9)';
+        ctx.fillText(sd[keys[i]].label, x, y);
+      }
     },
     
     

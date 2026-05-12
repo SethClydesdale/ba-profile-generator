@@ -1147,6 +1147,88 @@ footer li:first-child:before { display:none; }
   }
 }
 
+.story-slider {
+  width:65px;
+  vertical-align:middle;
+  margin:0 2px;
+  cursor:pointer;
+  accent-color:#024077;
+  display:none;
+}
+
+#story-completed-section.slider-mode .story-slider {
+  display:inline-block;
+}
+
+/* In slider mode: vol checkboxes are disabled.
+   Unchecked (level=0) = grayed. Checked (level>0) = full opacity. */
+#story-completed-section.slider-mode input[type="checkbox"]:not(:checked):disabled + .pseudo_checkbox {
+  opacity:0.3;
+  cursor:default;
+}
+#story-completed-section.slider-mode input[type="checkbox"]:checked:disabled + .pseudo_checkbox {
+  opacity:1;
+  cursor:default;
+}
+
+.story-level-label {
+  display:none;
+  font-size:13px;
+  color:#39C;
+  vertical-align:middle;
+  margin:0 4px;
+}
+#story-completed-section.slider-mode .story-level-label {
+  display:inline;
+}
+
+#ba-story-radar {
+  display:none;
+  left:560px;
+  top:610px;
+  width:500px;
+  height:280px;
+}
+
+.story-slider-mode #ba-story-radar {
+  display:block;
+}
+
+.story-slider-mode .rect.complete-max {
+  border-color:#E8559A;
+}
+.story-slider-mode .rect.complete-max:after {
+  color:#E8559A;
+}
+
+/* Detail mode: one vol per line */
+#story-completed-section.slider-mode .info-sub-row {
+  display:block;
+}
+
+#story-completed-section.slider-mode .info-sub-row .label {
+  display:block;
+  width:auto;
+  text-align:left;
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+#story-completed-section.slider-mode .info-sub-row .label.empty {
+  display:none;
+}
+
+#story-completed-section.slider-mode .story-item {
+  display:block;
+  margin:3px 0 3px 16px;
+  vertical-align:middle;
+}
+
+#story-completed-section.slider-mode .divider {
+  display:none;
+}
+
+
 @media (max-width:400px) {
   #arona {
     height:500px;
